@@ -69,7 +69,7 @@ export default function AIRecommendModal({ isOpen, onClose }: AIRecommendModalPr
       // 没有有效缓存时显示欢迎消息
       const welcomeMessage: ExtendedAIMessage = {
         role: 'assistant',
-        content: '你好！我是AI智能助手，支持以下功能：\n\n🎬 影视剧推荐 - 推荐电影、电视剧、动漫等\n🔗 视频链接解析 - 解析YouTube链接并播放\n📺 视频内容搜索 - 搜索相关视频内容\n\n💡 直接告诉我你想看什么类型的内容，或发送YouTube链接给我解析！',
+        content: '你好！欢迎使用OPNANA AI影视助手，开始和我交谈吧。',
         timestamp: new Date().toISOString()
       };
       setMessages([welcomeMessage]);
@@ -225,7 +225,7 @@ export default function AIRecommendModal({ isOpen, onClose }: AIRecommendModalPr
     // 重新显示欢迎消息
     const welcomeMessage: ExtendedAIMessage = {
       role: 'assistant',
-      content: '你好！我是AI智能助手，支持以下功能：\n\n🎬 影视剧推荐 - 推荐电影、电视剧、动漫等\n🔗 视频链接解析 - 解析YouTube链接并播放\n📺 视频内容搜索 - 搜索相关视频内容\n\n💡 直接告诉我你想看什么类型的内容，或发送YouTube链接给我解析！',
+      content: '你好！欢迎使用OPNANA AI影视助手，开始和我交谈吧。',
       timestamp: new Date().toISOString()
     };
     setMessages([welcomeMessage]);
@@ -255,7 +255,7 @@ export default function AIRecommendModal({ isOpen, onClose }: AIRecommendModalPr
             </div>
             <div>
               <h2 className="text-xl font-bold text-white">AI 智能助手</h2>
-              <p className="text-blue-100 text-sm">影视推荐 · 视频解析 · YouTube搜索</p>
+              {/* <p className="text-blue-100 text-sm">影视推荐 · 视频解析 · YouTube搜索</p> */}
             </div>
           </div>
           <div className="flex items-center space-x-2">
@@ -290,7 +290,7 @@ export default function AIRecommendModal({ isOpen, onClose }: AIRecommendModalPr
                 欢迎使用AI智能助手
               </h3>
               <p className="text-gray-600 dark:text-gray-400 mb-6">
-                支持影视推荐、YouTube链接解析和视频搜索推荐
+                我可以帮你找到你想看的影视作品。
               </p>
               
               {/* 预设问题 */}
@@ -604,7 +604,7 @@ export default function AIRecommendModal({ isOpen, onClose }: AIRecommendModalPr
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="输入影视推荐类型、YouTube搜索内容或直接粘贴YouTube链接..."
+                placeholder="告诉我你想观看的影视类型..."
                 className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
                 rows={2}
                 disabled={isLoading}
@@ -622,7 +622,7 @@ export default function AIRecommendModal({ isOpen, onClose }: AIRecommendModalPr
           
           {/* 提示信息 */}
           <div className="mt-2 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
-            <span>💡 支持影视推荐、YouTube链接解析和视频搜索</span>
+            <span>💡 基于Google Gemini模型的人工智能影视助手</span>
             <span>按 Enter 发送，Shift+Enter 换行</span>
           </div>
         </div>
