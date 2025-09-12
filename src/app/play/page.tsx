@@ -2232,94 +2232,94 @@ function PlayPageClient() {
             '<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgdmlld0JveD0iMCAwIDUwIDUwIj48cGF0aCBkPSJNMjUuMjUxIDYuNDYxYy0xMC4zMTggMC0xOC42ODMgOC4zNjUtMTguNjgzIDE4LjY4M2g0LjA2OGMwLTguMDcgNi41NDUtMTQuNjE1IDE0LjYxNS0xNC42MTVWNi40NjF6IiBmaWxsPSIjMDA5Njg4Ij48YW5pbWF0ZVRyYW5zZm9ybSBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIGF0dHJpYnV0ZVR5cGU9IlhNTCIgZHVyPSIxcyIgZnJvbT0iMCAyNSAyNSIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiIHRvPSIzNjAgMjUgMjUiIHR5cGU9InJvdGF0ZSIvPjwvcGF0aD48L3N2Zz4=">',
         },
         settings: [
-          {
-            html: '去广告',
-            icon: '<text x="50%" y="50%" font-size="20" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="#ffffff">AD</text>',
-            tooltip: blockAdEnabled ? '已开启' : '已关闭',
-            onClick() {
-              const newVal = !blockAdEnabled;
-              try {
-                localStorage.setItem('enable_blockad', String(newVal));
-                if (artPlayerRef.current) {
-                  resumeTimeRef.current = artPlayerRef.current.currentTime;
-                  if (artPlayerRef.current.video.hls) {
-                    artPlayerRef.current.video.hls.destroy();
-                  }
-                  artPlayerRef.current.destroy(false);
-                  artPlayerRef.current = null;
-                }
-                setBlockAdEnabled(newVal);
-              } catch (_) {
-                // ignore
-              }
-              return newVal ? '当前开启' : '当前关闭';
-            },
-          },
-          {
-            name: '外部弹幕',
-            html: '外部弹幕',
-            icon: '<text x="50%" y="50%" font-size="14" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="#ffffff">外</text>',
-            tooltip: externalDanmuEnabled ? '外部弹幕已开启' : '外部弹幕已关闭',
-            switch: externalDanmuEnabled,
-            onSwitch: function (item: any) {
-              const nextState = !item.switch;
+          // {
+          //   html: '去广告',
+          //   icon: '<text x="50%" y="50%" font-size="20" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="#ffffff">AD</text>',
+          //   tooltip: blockAdEnabled ? '已开启' : '已关闭',
+          //   onClick() {
+          //     const newVal = !blockAdEnabled;
+          //     try {
+          //       localStorage.setItem('enable_blockad', String(newVal));
+          //       if (artPlayerRef.current) {
+          //         resumeTimeRef.current = artPlayerRef.current.currentTime;
+          //         if (artPlayerRef.current.video.hls) {
+          //           artPlayerRef.current.video.hls.destroy();
+          //         }
+          //         artPlayerRef.current.destroy(false);
+          //         artPlayerRef.current = null;
+          //       }
+          //       setBlockAdEnabled(newVal);
+          //     } catch (_) {
+          //       // ignore
+          //     }
+          //     return newVal ? '当前开启' : '当前关闭';
+          //   },
+          // },
+          // {
+          //   name: '外部弹幕',
+          //   html: '外部弹幕',
+          //   icon: '<text x="50%" y="50%" font-size="14" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="#ffffff">外</text>',
+          //   tooltip: externalDanmuEnabled ? '外部弹幕已开启' : '外部弹幕已关闭',
+          //   switch: externalDanmuEnabled,
+          //   onSwitch: function (item: any) {
+          //     const nextState = !item.switch;
               
-              // 立即同步更新所有状态（确保UI响应速度）
-              externalDanmuEnabledRef.current = nextState;
-              setExternalDanmuEnabled(nextState);
-              item.tooltip = nextState ? '外部弹幕已开启' : '外部弹幕已关闭';
+          //     // 立即同步更新所有状态（确保UI响应速度）
+          //     externalDanmuEnabledRef.current = nextState;
+          //     setExternalDanmuEnabled(nextState);
+          //     item.tooltip = nextState ? '外部弹幕已开启' : '外部弹幕已关闭';
               
-              // 同步localStorage操作（快速）
-              try {
-                localStorage.setItem('enable_external_danmu', String(nextState));
-              } catch (e) {
-                console.warn('localStorage设置失败:', e);
-              }
+          //     // 同步localStorage操作（快速）
+          //     try {
+          //       localStorage.setItem('enable_external_danmu', String(nextState));
+          //     } catch (e) {
+          //       console.warn('localStorage设置失败:', e);
+          //     }
               
-              // 异步处理弹幕数据（完全非阻塞）
-              Promise.resolve().then(async () => {
-                try {
-                  if (artPlayerRef.current?.plugins?.artplayerPluginDanmuku) {
-                    const plugin = artPlayerRef.current.plugins.artplayerPluginDanmuku;
+          //     // 异步处理弹幕数据（完全非阻塞）
+          //     Promise.resolve().then(async () => {
+          //       try {
+          //         if (artPlayerRef.current?.plugins?.artplayerPluginDanmuku) {
+          //           const plugin = artPlayerRef.current.plugins.artplayerPluginDanmuku;
                     
-                    if (nextState) {
-                      // 开启外部弹幕：清空当前数据再加载新数据
-                      console.log('开启外部弹幕，清空并加载新数据...');
-                      plugin.load([]); // 先清空
-                      const externalDanmu = await loadExternalDanmu();
-                      if (externalDanmuEnabledRef.current) { // 再次检查状态，防止快速切换
-                        plugin.load(externalDanmu);
-                        plugin.show();
-                        console.log('外部弹幕已加载:', externalDanmu.length, '条');
-                        // 显示弹幕加载提示
-                        if (artPlayerRef.current) {
-                          if (externalDanmu.length > 0) {
-                            artPlayerRef.current.notice.show = `已加载 ${externalDanmu.length} 条弹幕`;
-                          } else {
-                            artPlayerRef.current.notice.show = '暂无弹幕数据';
-                          }
-                        }
-                      }
-                    } else {
-                      // 关闭外部弹幕：清空数据并隐藏
-                      console.log('关闭外部弹幕，清空数据并隐藏...');
-                      plugin.load([]); // 清空弹幕数据
-                      plugin.hide();
-                      console.log('外部弹幕已关闭并清空');
-                      // 显示关闭提示
-                      if (artPlayerRef.current) {
-                        artPlayerRef.current.notice.show = '外部弹幕已关闭';
-                      }
-                    }
-                  }
-                } catch (error) {
-                  console.error('异步处理外部弹幕失败:', error);
-                }
-              });
+          //           if (nextState) {
+          //             // 开启外部弹幕：清空当前数据再加载新数据
+          //             console.log('开启外部弹幕，清空并加载新数据...');
+          //             plugin.load([]); // 先清空
+          //             const externalDanmu = await loadExternalDanmu();
+          //             if (externalDanmuEnabledRef.current) { // 再次检查状态，防止快速切换
+          //               plugin.load(externalDanmu);
+          //               plugin.show();
+          //               console.log('外部弹幕已加载:', externalDanmu.length, '条');
+          //               // 显示弹幕加载提示
+          //               if (artPlayerRef.current) {
+          //                 if (externalDanmu.length > 0) {
+          //                   artPlayerRef.current.notice.show = `已加载 ${externalDanmu.length} 条弹幕`;
+          //                 } else {
+          //                   artPlayerRef.current.notice.show = '暂无弹幕数据';
+          //                 }
+          //               }
+          //             }
+          //           } else {
+          //             // 关闭外部弹幕：清空数据并隐藏
+          //             console.log('关闭外部弹幕，清空数据并隐藏...');
+          //             plugin.load([]); // 清空弹幕数据
+          //             plugin.hide();
+          //             console.log('外部弹幕已关闭并清空');
+          //             // 显示关闭提示
+          //             if (artPlayerRef.current) {
+          //               artPlayerRef.current.notice.show = '外部弹幕已关闭';
+          //             }
+          //           }
+          //         }
+          //       } catch (error) {
+          //         console.error('异步处理外部弹幕失败:', error);
+          //       }
+          //     });
               
-              return nextState; // 立即返回新状态
-            },
-          },
+          //     return nextState; // 立即返回新状态
+          //   },
+          // },
           {
             html: '弹幕开关',
             icon: '<text x="50%" y="50%" font-size="16" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="#ffffff">弹</text>',
@@ -2522,7 +2522,7 @@ function PlayPageClient() {
                 case 'medium': // 中等性能设备 - 适度优化
                   return {
                     ...baseConfig,
-                    antiOverlap: !isMobile, // 移动端关闭防重叠
+                    antiOverlap: true, // 移动端也开启防重叠
                     synchronousPlayback: true, // 保持同步播放以确保体验一致
                     useWorker: true, // v5.2.0: 中等设备也启用Worker
                   }

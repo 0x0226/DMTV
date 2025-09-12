@@ -35,7 +35,7 @@ function VersionDisplay() {
   return (
     <button
       onClick={() =>
-        window.open('https://github.com/SzeMeng76/LunaTV', '_blank')
+        window.open('https://github.com', '_blank')
       }
       className='absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 transition-colors cursor-pointer'
     >
@@ -52,13 +52,13 @@ function VersionDisplay() {
           {updateStatus === UpdateStatus.HAS_UPDATE && (
             <>
               <AlertCircle className='w-3.5 h-3.5' />
-              <span className='font-semibold text-xs'>有新版本</span>
+              <span className='font-semibold text-xs'>OPNANA TV</span>
             </>
           )}
           {updateStatus === UpdateStatus.NO_UPDATE && (
             <>
               <CheckCircle className='w-3.5 h-3.5' />
-              <span className='font-semibold text-xs'>已是最新</span>
+              <span className='font-semibold text-xs'>OPNANA TV</span>
             </>
           )}
         </div>
@@ -127,9 +127,12 @@ function LoginPageClient() {
         <ThemeToggle />
       </div>
       <div className='relative z-10 w-full max-w-md rounded-3xl bg-gradient-to-b from-white/90 via-white/70 to-white/40 dark:from-zinc-900/90 dark:via-zinc-900/70 dark:to-zinc-900/40 backdrop-blur-xl shadow-2xl p-10 dark:border dark:border-zinc-800'>
-        <h1 className='text-green-600 tracking-tight text-center text-3xl font-extrabold mb-8 bg-clip-text drop-shadow-sm'>
+        <h1 className='text-green-600 tracking-tight text-center text-3xl font-extrabold mb-2 bg-clip-text drop-shadow-sm'>
           {siteName}
         </h1>
+        <p className='text-center text-gray-600 dark:text-gray-400 text-sm mb-8'>
+          注册新账户
+        </p>
         <form onSubmit={handleSubmit} className='space-y-8'>
           {shouldAskUsername && (
             <div>
@@ -182,7 +185,7 @@ function LoginPageClient() {
           {shouldAskUsername && (
             <div className='text-center'>
               <span className='text-gray-600 dark:text-gray-400 text-sm'>
-                还没有账户？
+                支持弹幕、同步、网盘搜索 
               </span>
               <button
                 type='button'
