@@ -2522,7 +2522,7 @@ function PlayPageClient() {
                 case 'medium': // 中等性能设备 - 适度优化
                   return {
                     ...baseConfig,
-                    antiOverlap: true, // 移动端也开启防重叠
+                    antiOverlap: !isMobile, // 移动端关闭防重叠
                     synchronousPlayback: true, // 保持同步播放以确保体验一致
                     useWorker: true, // v5.2.0: 中等设备也启用Worker
                   }
