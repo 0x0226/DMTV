@@ -106,11 +106,11 @@ const DoubanSelector: React.FC<DoubanSelectorProps> = ({
 
   // 快捷类型按钮选项 - 电影
   const quickGenreOptions = [
-    { label: '恐怖', value: 'horror' },
     { label: '动作', value: 'action' },
     { label: '科幻', value: 'sci-fi' },
     { label: '爱情', value: 'romance' },
     { label: '喜剧', value: 'comedy' },
+    { label: '历史', value: 'history' },
     { label: '悬疑', value: 'suspense' },
     { label: '犯罪', value: 'crime' },
     { label: '惊悚', value: 'thriller' },
