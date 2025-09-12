@@ -840,7 +840,7 @@ function SearchPageClient() {
                 >
                   💾 网盘资源
                 </button>
-                <button
+                {/* <button
                   type='button'
                   onClick={() => {
                     const wasAlreadyYoutube = searchType === 'youtube';
@@ -867,7 +867,7 @@ function SearchPageClient() {
                   }`}
                 >
                   📺 YouTube
-                </button>
+                </button> */}
               </div>
             </div>
           </div>
