@@ -184,7 +184,7 @@ function LoginPageClient() {
           {/* 注册链接 - 仅在非 localStorage 模式下显示 */}
           {shouldAskUsername && (
             <div className='text-center'>
-              <span className='text-gray-600 dark:text-gray-400 text-sm'>
+              <span className='text-red-600 dark:text-red-400 text-sm'>
                 和 OPNANA 账户不通用 
               </span>
               <button
