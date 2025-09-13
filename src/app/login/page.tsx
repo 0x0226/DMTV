@@ -131,7 +131,7 @@ function LoginPageClient() {
           {siteName}
         </h1>
         <p className='text-center text-gray-600 dark:text-gray-400 text-sm mb-8'>
-          注册新账户
+          和 OPNANA 账户不通用，请重新注册
         </p>
         <form onSubmit={handleSubmit} className='space-y-8'>
           {shouldAskUsername && (
