@@ -131,7 +131,7 @@ function LoginPageClient() {
           {siteName}
         </h1>
         <p className='text-center text-gray-600 dark:text-gray-400 text-sm mb-8'>
-          海量影视资源，支持弹幕、网盘搜索、 AI 推荐等
+          海量影视资源，弹幕、网盘搜索支持
         </p>
         <form onSubmit={handleSubmit} className='space-y-8'>
           {shouldAskUsername && (
