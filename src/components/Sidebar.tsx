@@ -150,16 +150,16 @@ const Sidebar = ({ onToggle, activePath = '/' }: SidebarProps) => {
       label: '综艺',
       href: '/douban?type=show',
     },
-    {
-      icon: Radio,
-      label: '直播',
-      href: '/live',
-    },
-    {
-      icon: Tv,
-      label: 'TVBox 配置',
-      href: '/tvbox',
-    },
+    // {
+    //   icon: Radio,
+    //   label: '直播',
+    //   href: '/live',
+    // },
+    // {
+    //   icon: Tv,
+    //   label: 'TVBox 配置',
+    //   href: '/tvbox',
+    // },
   ]);
 
   useEffect(() => {
