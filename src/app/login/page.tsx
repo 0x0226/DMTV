@@ -131,7 +131,13 @@ function LoginPageClient() {
           {siteName}
         </h1>
         <p className='text-center text-gray-600 dark:text-gray-400 text-sm mb-8'>
-          和 OPNANA 账户不通用，请重新注册
+          和 OPNANA 账户不通用，请<button
+                type='button'
+                onClick={() => router.push('/register')}
+                className='ml-2 text-green-600 dark:text-green-400 text-sm font-medium hover:underline'
+              >
+                重新注册
+              </button>
         </p>
         <form onSubmit={handleSubmit} className='space-y-8'>
           {shouldAskUsername && (
