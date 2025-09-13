@@ -2,7 +2,7 @@
 
 'use client';
 
-import { Box, Search, Cat, Clover, Film, Home, Radio, Star, Tv } from 'lucide-react';
+import { Box, Cat, Clover, Film, Home, Radio, Star, Tv } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -42,11 +42,11 @@ const MobileBottomNav = ({ activePath }: MobileBottomNavProps) => {
       label: '综艺',
       href: '/douban?type=show',
     },
-    // {
-    //   icon: Radio,
-    //   label: '直播',
-    //   href: '/live',
-    // },
+    {
+      icon: Radio,
+      label: '直播',
+      href: '/live',
+    },
     {
       icon: Search,
       label: '搜索',
