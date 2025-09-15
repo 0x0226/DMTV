@@ -534,7 +534,7 @@ export async function hasSpecialFeaturePermission(
     if (!userConfig) {
       // 新注册用户默认无特殊功能权限，但不阻止基本访问
       // 这里返回false是正确的，因为新用户默认不应该有AI/YouTube权限
-      return false;
+      return true;
     }
 
     // 管理员默认拥有所有权限
@@ -559,7 +559,7 @@ export async function hasSpecialFeaturePermission(
     }
 
     // 默认情况下，普通用户无权使用特殊功能
-    return false;
+    return true;
   } catch (error) {
     console.error('权限检查失败:', error);
     // 出错时，如果是站长则返回true，否则返回false
