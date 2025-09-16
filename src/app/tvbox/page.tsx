@@ -76,7 +76,7 @@ export default function TVBoxConfigPage() {
                 TVBox 配置
               </h1>
               <p className="text-gray-600 dark:text-gray-400">
-                将 LunaTV 的视频源导入到 TVBox 应用中使用
+                将 OPNANATV 的视频源导入到 TVBox 应用中使用
               </p>
             </div>
           </div>
@@ -213,7 +213,7 @@ export default function TVBoxConfigPage() {
                   开始使用
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400 text-sm">
-                  配置导入成功后，即可在 TVBox 中浏览和观看 LunaTV 的视频内容。
+                  配置导入成功后，即可在 TVBox 中浏览和观看 OPNANATV 的视频内容。
                 </p>
               </div>
             </div>
@@ -233,7 +233,7 @@ export default function TVBoxConfigPage() {
                 视频功能
               </h3>
               <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1 ml-6">
-                <li>• 自动同步 LunaTV 的所有视频源</li>
+                <li>• 自动同步 OPNANATV 的所有视频源</li>
                 <li>• 支持搜索和快速搜索</li>
                 <li>• 支持分类筛选</li>
                 <li>• 内置视频解析接口</li>
@@ -292,7 +292,7 @@ export default function TVBoxConfigPage() {
             ⚠️ 注意事项
           </h3>
           <ul className="text-sm text-yellow-700 dark:text-yellow-300 space-y-1">
-            <li>• 确保 TVBox 设备能够访问您的 LunaTV 服务器</li>
+            <li>• 确保 TVBox 设备能够访问您的 OPNANATV 服务器</li>
             <li>• 建议使用 HTTPS 协议确保安全性</li>
             <li>• 配置修改后即时生效，无需等待缓存刷新</li>
             <li>• 解析效果取决于原始视频源的可用性</li>
