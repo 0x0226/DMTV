@@ -596,10 +596,10 @@ export const UserMenu: React.FC = () => {
           </button>
 
           {/* 分割线 */}
-          <div className='my-1 border-t border-gray-200 dark:border-gray-700'></div>
+{/*           <div className='my-1 border-t border-gray-200 dark:border-gray-700'></div> */}
 
           {/* 版本信息 */}
-          <button
+{/*           <button
             onClick={() => {
               setIsVersionPanelOpen(true);
               handleCloseMenu();
@@ -621,7 +621,7 @@ export const UserMenu: React.FC = () => {
                   ></div>
                 )}
             </div>
-          </button>
+          </button> */}
         </div>
       </div>
     </>
@@ -1133,9 +1133,9 @@ export const UserMenu: React.FC = () => {
         >
           <User className='w-full h-full' />
         </button>
-        {updateStatus === UpdateStatus.HAS_UPDATE && (
+{/*         {updateStatus === UpdateStatus.HAS_UPDATE && (
           <div className='absolute top-[2px] right-[2px] w-2 h-2 bg-yellow-500 rounded-full'></div>
-        )}
+        )} */}
       </div>
 
       {/* 使用 Portal 将菜单面板渲染到 document.body */}
