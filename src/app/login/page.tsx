@@ -49,13 +49,13 @@ function VersionDisplay() {
           {updateStatus === UpdateStatus.HAS_UPDATE && (
             <>
               <AlertCircle className='w-3.5 h-3.5' />
-              <span className='font-semibold text-xs'>有新版本</span>
+              <span className='font-semibold text-xs'>OPNANA TV</span>
             </>
           )}
           {updateStatus === UpdateStatus.NO_UPDATE && (
             <>
               <CheckCircle className='w-3.5 h-3.5' />
-              <span className='font-semibold text-xs'>已是最新</span>
+              <span className='font-semibold text-xs'>OPNANA TV</span>
             </>
           )}
         </div>
@@ -124,9 +124,12 @@ function LoginPageClient() {
         <ThemeToggle />
       </div>
       <div className='relative z-10 w-full max-w-md rounded-3xl bg-gradient-to-b from-white/90 via-white/70 to-white/40 dark:from-zinc-900/90 dark:via-zinc-900/70 dark:to-zinc-900/40 backdrop-blur-xl shadow-2xl p-10 dark:border dark:border-zinc-800'>
-        <h1 className='text-green-600 tracking-tight text-center text-3xl font-extrabold mb-8 bg-clip-text drop-shadow-sm'>
+        <h1 className='text-green-600 tracking-tight text-center text-3xl font-extrabold mb-2 bg-clip-text drop-shadow-sm'>
           {siteName}
         </h1>
+        <p className='text-center text-gray-600 dark:text-gray-400 text-sm mb-8'>
+          海量影视资源，弹幕、网盘搜索支持
+        </p>
         <form onSubmit={handleSubmit} className='space-y-8'>
           {shouldAskUsername && (
             <div>
@@ -178,8 +181,8 @@ function LoginPageClient() {
           {/* 注册链接 - 仅在非 localStorage 模式下显示 */}
           {shouldAskUsername && (
             <div className='text-center'>
-              <span className='text-gray-600 dark:text-gray-400 text-sm'>
-                还没有账户？
+              <span className='text-red-600 dark:text-red-400 text-sm'>
+                和 OPNANA 账户不通用 
               </span>
               <button
                 type='button'
