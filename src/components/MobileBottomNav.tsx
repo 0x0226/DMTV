@@ -33,9 +33,9 @@ const MobileBottomNav = ({ activePath }: MobileBottomNavProps) => {
       href: '/douban?type=tv',
     },
     {
-      icon: PlaySquare,
-      label: '短剧',
-      href: '/shortdrama',
+      icon: Search,
+      label: '搜索',
+      href: '/search',
     },
     {
       icon: Cat,
@@ -48,9 +48,9 @@ const MobileBottomNav = ({ activePath }: MobileBottomNavProps) => {
       href: '/douban?type=show',
     },
     {
-      icon: Search,
-      label: '搜索',
-      href: '/search',
+      icon: PlaySquare,
+      label: '短剧',
+      href: '/shortdrama',
     },
   ]);
 
