@@ -136,11 +136,6 @@ const Sidebar = ({ onToggle, activePath = '/' }: SidebarProps) => {
       href: '/douban?type=tv',
     },
     {
-      icon: PlaySquare,
-      label: '短剧',
-      href: '/shortdrama',
-    },
-    {
       icon: Cat,
       label: '动漫',
       href: '/douban?type=anime',
@@ -149,6 +144,11 @@ const Sidebar = ({ onToggle, activePath = '/' }: SidebarProps) => {
       icon: Clover,
       label: '综艺',
       href: '/douban?type=show',
+    },
+    {
+      icon: PlaySquare,
+      label: '短剧',
+      href: '/shortdrama',
     },
     // {
     //   icon: Radio,
