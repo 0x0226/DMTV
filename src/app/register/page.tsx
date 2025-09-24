@@ -49,13 +49,13 @@ function VersionDisplay() {
           {updateStatus === UpdateStatus.HAS_UPDATE && (
             <>
               <AlertCircle className='w-3.5 h-3.5' />
-              <span className='font-semibold text-xs'>有新版本</span>
+              <span className='font-semibold text-xs'>OPNANA TV</span>
             </>
           )}
           {updateStatus === UpdateStatus.NO_UPDATE && (
             <>
               <CheckCircle className='w-3.5 h-3.5' />
-              <span className='font-semibold text-xs'>已是最新</span>
+              <span className='font-semibold text-xs'>OPNANA TV</span>
             </>
           )}
         </div>
