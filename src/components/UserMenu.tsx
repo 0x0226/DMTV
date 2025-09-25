@@ -1193,7 +1193,7 @@ export const UserMenu: React.FC = () => {
               {/* 感谢信息 */}
               {getThanksInfo(doubanImageProxyType) && (
                 <div className='mt-3'>
-                  <button
+                  {/* <button
                     type='button'
                     onClick={() =>
                       window.open(
@@ -1207,7 +1207,7 @@ export const UserMenu: React.FC = () => {
                       {getThanksInfo(doubanImageProxyType)!.text}
                     </span>
                     <ExternalLink className='w-3.5 opacity-70' />
-                  </button>
+                  </button> */}
                 </div>
               )}
             </div>
