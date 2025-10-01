@@ -3432,7 +3432,7 @@ function PlayPageClient() {
 
         // 移动端弹幕配置按钮点击切换支持 - 基于ArtPlayer设置按钮原理
         const addMobileDanmakuToggle = () => {
-          const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+          const isMobile = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
           setTimeout(() => {
             const configButton = document.querySelector('.artplayer-plugin-danmuku .apd-config');
