@@ -247,7 +247,7 @@ function LoginPageClient() {
           {/* 注册链接 - 仅在非 localStorage 模式下显示 */}
           {shouldAskUsername && (
             <div className='mt-6 pt-6 border-t border-gray-200 dark:border-gray-700'>
-              <p className='text-center text-gray-600 dark:text-gray-400 text-sm mb-3'>
+              <p className='text-center text-red-600 dark:text-red-400 text-sm mb-3'>
               和OPNANA账户不通用，请重新注册
               </p>
               <a
