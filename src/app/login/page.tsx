@@ -49,13 +49,13 @@ function VersionDisplay() {
           {updateStatus === UpdateStatus.HAS_UPDATE && (
             <>
               <AlertCircle className='w-3.5 h-3.5' />
-              <span className='font-semibold text-xs'>有新版本</span>
+              <span className='font-semibold text-xs'>OPNANA TV</span>
             </>
           )}
           {updateStatus === UpdateStatus.NO_UPDATE && (
             <>
               <CheckCircle className='w-3.5 h-3.5' />
-              <span className='font-semibold text-xs'>已是最新</span>
+              <span className='font-semibold text-xs'>OPNANA TV</span>
             </>
           )}
         </div>
@@ -178,7 +178,7 @@ function LoginPageClient() {
           <h1 className='text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 dark:from-green-400 dark:via-emerald-400 dark:to-teal-400 tracking-tight text-4xl font-extrabold mb-2 drop-shadow-sm'>
             {siteName}
           </h1>
-          <p className='text-gray-600 dark:text-gray-400 text-sm font-medium'>欢迎回来，请登录您的账户</p>
+          <p className='text-gray-600 dark:text-gray-400 text-sm font-medium'>聚集全网海量资源，弹幕、网盘搜索支持</p>
         </div>
 
         <form onSubmit={handleSubmit} className='space-y-6'>
@@ -248,7 +248,7 @@ function LoginPageClient() {
           {shouldAskUsername && (
             <div className='mt-6 pt-6 border-t border-gray-200 dark:border-gray-700'>
               <p className='text-center text-gray-600 dark:text-gray-400 text-sm mb-3'>
-                还没有账户？
+              和OPNANA账户不通用，请重新注册
               </p>
               <a
                 href='/register'
