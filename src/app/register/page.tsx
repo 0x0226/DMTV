@@ -292,7 +292,7 @@ function RegisterPageClient() {
                 type='text'
                 autoComplete='username'
                 className='block w-full pl-12 pr-4 py-3.5 rounded-xl border-0 text-gray-900 dark:text-gray-100 shadow-sm ring-2 ring-white/60 dark:ring-white/10 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:outline-none sm:text-base bg-white/80 dark:bg-zinc-800/80 backdrop-blur transition-all duration-300 hover:shadow-md'
-                placeholder='3-20位字母数字下划线'
+                placeholder='3-20位字母或数字'
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
