@@ -113,13 +113,13 @@ export const UserMenu: React.FC = () => {
   // 豆瓣数据源选项
   const doubanDataSourceOptions = [
     { value: 'direct', label: '直连（服务器直接请求豆瓣）' },
-    { value: 'cors-proxy-zwei', label: 'Cors Proxy By Zwei' },
-    {
-      value: 'cmliussss-cdn-tencent',
-      label: '豆瓣 CDN By CMLiussss（腾讯云）',
-    },
-    { value: 'cmliussss-cdn-ali', label: '豆瓣 CDN By CMLiussss（阿里云）' },
-    { value: 'custom', label: '自定义代理' },
+    // { value: 'cors-proxy-zwei', label: 'Cors Proxy By Zwei' },
+    // {
+    //   value: 'cmliussss-cdn-tencent',
+    //   label: '豆瓣 CDN By CMLiussss（腾讯云）',
+    // },
+    // { value: 'cmliussss-cdn-ali', label: '豆瓣 CDN By CMLiussss（阿里云）' },
+    // { value: 'custom', label: '自定义代理' },
   ];
 
   // 豆瓣图片代理选项
@@ -127,12 +127,12 @@ export const UserMenu: React.FC = () => {
     { value: 'direct', label: '直连（浏览器直接请求豆瓣）' },
     { value: 'server', label: '服务器代理（由服务器代理请求豆瓣）' },
     { value: 'img3', label: '豆瓣官方精品 CDN（阿里云）' },
-    {
-      value: 'cmliussss-cdn-tencent',
-      label: '豆瓣 CDN By CMLiussss（腾讯云）',
-    },
-    { value: 'cmliussss-cdn-ali', label: '豆瓣 CDN By CMLiussss（阿里云）' },
-    { value: 'custom', label: '自定义代理' },
+    // {
+    //   value: 'cmliussss-cdn-tencent',
+    //   label: '豆瓣 CDN By CMLiussss（腾讯云）',
+    // },
+    // { value: 'cmliussss-cdn-ali', label: '豆瓣 CDN By CMLiussss（阿里云）' },
+    // { value: 'custom', label: '自定义代理' },
   ];
 
   // 修改密码相关状态
