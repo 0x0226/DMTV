@@ -4,10 +4,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import {
-  deleteEpisodeSkipConfig,
+  deleteSkipConfig,
   EpisodeSkipConfig,
-  getEpisodeSkipConfig,
-  saveEpisodeSkipConfig,
+  getSkipConfig,
+  saveSkipConfig,
   SkipSegment,
 } from '@/lib/db.client';
 
@@ -87,7 +87,7 @@ export default function SkipController({
   const loadSkipConfig = useCallback(async () => {
     try {
       console.log('🔄 开始加载配置:', { source, id });
-      const config = await getEpisodeSkipConfig(source, id);
+      const config = await getSkipConfig(source, id);
       console.log('✅ 配置加载完成:', config);
       setSkipConfig(config);
     } catch (err) {
@@ -97,9 +97,14 @@ export default function SkipController({
 
   // 自动跳过逻辑
   const handleAutoSkip = useCallback((segment: SkipSegment) => {
-    if (!artPlayerRef.current) return;
+    console.log('⏭️ handleAutoSkip 被调用:', segment);
+    if (!artPlayerRef.current) {
+      console.log('❌ artPlayerRef.current 为空，无法跳过');
+      return;
+    }
 
     const targetTime = segment.end + 1;
+    console.log('⏭️ 执行跳过，跳转到:', targetTime);
     artPlayerRef.current.currentTime = targetTime;
     lastSkipTimeRef.current = Date.now();
 
@@ -208,7 +213,15 @@ export default function SkipController({
         (segment) => time >= segment.start && time <= segment.end
       );
 
-      if (currentSegment && currentSegment !== currentSkipSegment) {
+      console.log('🔍 检查片段:', {
+        time,
+        currentSegment: currentSegment?.type,
+        currentSkipSegment: currentSkipSegment?.type,
+        isNew: currentSegment && currentSegment.type !== currentSkipSegment?.type
+      });
+
+      // 比较片段类型而不是对象引用（避免临时对象导致的重复触发）
+      if (currentSegment && currentSegment.type !== currentSkipSegment?.type) {
         setCurrentSkipSegment(currentSegment);
 
         // 检查当前片段是否开启自动跳过（默认为true）
@@ -218,8 +231,10 @@ export default function SkipController({
         if (shouldAutoSkip) {
           // 自动跳过：延迟1秒执行跳过
           if (autoSkipTimeoutRef.current) {
+            console.log('⏱️ 清除旧的 timeout');
             clearTimeout(autoSkipTimeoutRef.current);
           }
+          console.log('⏱️ 设置新的 timeout (1秒后执行跳过)');
           autoSkipTimeoutRef.current = setTimeout(() => {
             handleAutoSkip(currentSegment);
           }, 1000);
@@ -238,7 +253,8 @@ export default function SkipController({
             setCurrentSkipSegment(null);
           }, 8000);
         }
-      } else if (!currentSegment && currentSkipSegment) {
+      } else if (!currentSegment && currentSkipSegment?.type) {
+        console.log('✅ 离开片段区域');
         setCurrentSkipSegment(null);
         setShowSkipButton(false);
         if (skipTimeoutRef.current) {
@@ -307,7 +323,7 @@ export default function SkipController({
         updated_time: Date.now(),
       };
 
-      await saveEpisodeSkipConfig(source, id, updatedConfig);
+      await saveSkipConfig(source, id, updatedConfig);
       setSkipConfig(updatedConfig);
       onSettingModeChange?.(false);
       setNewSegment({});
@@ -417,7 +433,7 @@ export default function SkipController({
         updated_time: Date.now(),
       };
 
-      await saveEpisodeSkipConfig(source, id, updatedConfig);
+      await saveSkipConfig(source, id, updatedConfig);
       setSkipConfig(updatedConfig);
       // batchSettings 会通过 useEffect 自动从 skipConfig 同步，不需要手动重置
       onSettingModeChange?.(false);
@@ -439,7 +455,7 @@ export default function SkipController({
 
         if (updatedSegments.length === 0) {
           // 如果没有片段了，删除整个配置
-          await deleteEpisodeSkipConfig(source, id);
+          await deleteSkipConfig(source, id);
           setSkipConfig(null);
         } else {
           // 更新配置
@@ -448,7 +464,7 @@ export default function SkipController({
             segments: updatedSegments,
             updated_time: Date.now(),
           };
-          await saveEpisodeSkipConfig(source, id, updatedConfig);
+          await saveSkipConfig(source, id, updatedConfig);
           setSkipConfig(updatedConfig);
         }
 
