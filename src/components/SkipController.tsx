@@ -266,7 +266,7 @@ export default function SkipController({
       // 显示跳过提示
       if (artPlayerRef.current.notice) {
         const segmentName = segment.type === 'opening' ? '片头' : '片尾';
-        artPlayerRef.current.notice.show = `自动跳过${segmentName}`;
+        artPlayerRef.current.notice.show = `自动跳过${segmentName}，若不准确请自行修改`;
       }
     }
 
