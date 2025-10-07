@@ -47,7 +47,7 @@ export default function SkipController({
     endingMode: 'remaining', // 片尾模式：'remaining'(剩余时间) 或 'absolute'(绝对时间)
     endingStart: '2:00',    // 片尾开始时间（剩余时间模式：还剩多少时间开始倒计时；绝对时间模式：从视频开始多长时间）
     endingEnd: '',          // 片尾结束时间（可选，空表示直接跳转下一集）
-    autoSkip: true,         // 自动跳过开关
+    autoSkip: false,         // 自动跳过开关
     autoNextEpisode: true,  // 自动下一集开关
   });
 
