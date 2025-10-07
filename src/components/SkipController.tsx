@@ -991,7 +991,7 @@ export function SkipSettingsButton({ onClick }: { onClick: () => void }) {
       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:white">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
       </svg>
-      <span style="color:white">跳过片头设置</span>
+      <span style="color:white">跳过设置</span>
     </button>
   );
 }
