@@ -433,7 +433,7 @@ export default function SkipController({
         end: newSegment.end,
         type: newSegment.type as 'opening' | 'ending',
         title: newSegment.title || (newSegment.type === 'opening' ? '片头' : '片尾'),
-        autoSkip: true, // 默认关闭自动跳过
+        autoSkip: true, // 默认开启自动跳过
         autoNextEpisode: newSegment.type === 'ending', // 片尾默认开启自动下一集
       };
 
