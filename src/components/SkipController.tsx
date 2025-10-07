@@ -986,12 +986,12 @@ export function SkipSettingsButton({ onClick }: { onClick: () => void }) {
     <button
       onClick={onClick}
       className="flex items-center space-x-1 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 rounded text-sm text-gray-700 dark:text-gray-300 transition-colors"
-      title="设置跳过片头片尾" style="background-color: pink;"
+      title="设置跳过片头片尾" style="background-color: #22c55e;"
     >
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:white">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
       </svg>
-      <span>跳过片头设置</span>
+      <span style="color:white">跳过片头设置</span>
     </button>
   );
 }
