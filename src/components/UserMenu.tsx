@@ -110,7 +110,7 @@ export const UserMenu: React.FC = () => {
   const [isDoubanImageProxyDropdownOpen, setIsDoubanImageProxyDropdownOpen] =
     useState(false);
   // 跳过片头片尾相关设置
-  const [enableAutoSkip, setEnableAutoSkip] = useState(true);
+  const [enableAutoSkip, setEnableAutoSkip] = useState(false);
   const [enableAutoNextEpisode, setEnableAutoNextEpisode] = useState(true);
 
   // 豆瓣数据源选项
@@ -841,7 +841,7 @@ export const UserMenu: React.FC = () => {
     setContinueWatchingMinProgress(5);
     setContinueWatchingMaxProgress(100);
     setEnableContinueWatchingFilter(false);
-    setEnableAutoSkip(true);
+    setEnableAutoSkip(false);
     setEnableAutoNextEpisode(true);
 
     if (typeof window !== 'undefined') {
