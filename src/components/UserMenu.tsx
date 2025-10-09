@@ -1370,7 +1370,7 @@ export const UserMenu: React.FC = () => {
             <div className='border-t border-gray-200 dark:border-gray-700'></div>
 
             {/* 默认聚合搜索结果 */}
-            <div className='flex items-center justify-between'>
+            {/* <div className='flex items-center justify-between'>
               <div>
                 <h4 className='text-sm font-medium text-gray-700 dark:text-gray-300'>
                   默认聚合搜索结果
@@ -1391,7 +1391,7 @@ export const UserMenu: React.FC = () => {
                   <div className='absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform peer-checked:translate-x-5'></div>
                 </div>
               </label>
-            </div>
+            </div> */}
 
             {/* 优选和测速 */}
             <div className='flex items-center justify-between'>
@@ -1418,7 +1418,7 @@ export const UserMenu: React.FC = () => {
             </div>
 
             {/* 流式搜索 */}
-            <div className='flex items-center justify-between'>
+            {/* <div className='flex items-center justify-between'>
               <div>
                 <h4 className='text-sm font-medium text-gray-700 dark:text-gray-300'>
                   流式搜索输出
@@ -1439,10 +1439,10 @@ export const UserMenu: React.FC = () => {
                   <div className='absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform peer-checked:translate-x-5'></div>
                 </div>
               </label>
-            </div>
+            </div> */}
 
             {/* 直播视频浏览器直连 */}
-            <div className='flex items-center justify-between'>
+            {/* <div className='flex items-center justify-between'>
               <div>
                 <h4 className='text-sm font-medium text-gray-700 dark:text-gray-300'>
                   IPTV 视频浏览器直连
@@ -1463,10 +1463,10 @@ export const UserMenu: React.FC = () => {
                   <div className='absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform peer-checked:translate-x-5'></div>
                 </div>
               </label>
-            </div>
+            </div> */}
 
             {/* 分割线 */}
-            <div className='border-t border-gray-200 dark:border-gray-700'></div>
+            {/* <div className='border-t border-gray-200 dark:border-gray-700'></div> */}
 
             {/* 跳过片头片尾设置 */}
             <div className='space-y-4'>
