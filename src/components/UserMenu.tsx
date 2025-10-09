@@ -1466,7 +1466,7 @@ export const UserMenu: React.FC = () => {
             </div> */}
 
             {/* 分割线 */}
-            {/* <div className='border-t border-gray-200 dark:border-gray-700'></div> */}
+            <div className='border-t border-gray-200 dark:border-gray-700'></div>
 
             {/* 跳过片头片尾设置 */}
             <div className='space-y-4'>
