@@ -965,13 +965,13 @@ export const UserMenu: React.FC = () => {
             >
               <Bell className='w-4 h-4 text-gray-500 dark:text-gray-400' />
               <span className='font-medium'>更新提醒</span>
-              /* {hasUnreadUpdates && totalUpdates > 0 && (
+              {hasUnreadUpdates && totalUpdates > 0 && (
                 <div className='ml-auto flex items-center gap-1'>
                   <span className='inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full'>
                     {totalUpdates > 99 ? '99+' : totalUpdates}
                   </span>
                 </div>
-              )} */
+              )}
             </button>
           )}
 
@@ -2097,10 +2097,10 @@ export const UserMenu: React.FC = () => {
 
           <User className='w-full h-full relative z-10 group-hover:scale-110 transition-transform duration-300' />
         </button>
-        {/* 统一更新提醒点：版本更新或剧集更新都显示橙色点 */}
-        {(hasUnreadUpdates && totalUpdates > 0) && (
+        {/* 统一更新提醒点：版本更新或剧集更新都显示橙色点直接隐藏 */}
+        {/* {(hasUnreadUpdates && totalUpdates > 0) && (
           <div className='absolute top-[2px] right-[2px] w-2 h-2 bg-yellow-500 rounded-full animate-pulse shadow-lg shadow-yellow-500/50'></div>
-        )}
+        )} */}
       </div>
 
       {/* 使用 Portal 将菜单面板渲染到 document.body */}
