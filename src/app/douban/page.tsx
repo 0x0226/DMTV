@@ -948,7 +948,7 @@ function DoubanPageClient() {
                       {/* 文字 */}
                       <div className='text-center'>
                         <p className='text-base font-semibold text-gray-800 dark:text-gray-200 mb-1'>
-                          更多内容请点击全部按钮或直接搜索
+                          更多内容请点击全部(分类)或直接搜索
                         </p>
                         <p className='text-xs text-gray-600 dark:text-gray-400'>
                           共 {doubanData.length} 项
