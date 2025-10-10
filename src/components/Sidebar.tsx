@@ -141,11 +141,6 @@ const Sidebar = ({ onToggle, activePath = '/' }: SidebarProps) => {
       href: '/douban?type=tv',
     },
     {
-      icon: PlaySquare,
-      label: '短剧',
-      href: '/shortdrama',
-    },
-    {
       icon: Cat,
       label: '动漫',
       href: '/douban?type=anime',
@@ -156,10 +151,15 @@ const Sidebar = ({ onToggle, activePath = '/' }: SidebarProps) => {
       href: '/douban?type=show',
     },
     {
-      icon: Radio,
-      label: '直播',
-      href: '/live',
+      icon: PlaySquare,
+      label: '短剧',
+      href: '/shortdrama',
     },
+    // {
+    //   icon: Radio,
+    //   label: '直播',
+    //   href: '/live',
+    // },
   ]);
 
   useEffect(() => {
