@@ -4221,7 +4221,7 @@ function PlayPageClient() {
                         ) : netdiskTotal > 0 ? (
                           <span>{netdiskTotal}个资源</span>
                         ) : (
-                          <span>网盘资源</span>
+                          <span>网盘搜索👆</span>
                         )}
                       </div>
                     </button>
