@@ -71,7 +71,7 @@ function PlayPageClient() {
   const [bangumiDetails, setBangumiDetails] = useState<any>(null);
   const [loadingBangumiDetails, setLoadingBangumiDetails] = useState(false);
 
-  // 网盘搜索状态
+  // 状态
   const [netdiskResults, setNetdiskResults] = useState<{ [key: string]: any[] } | null>(null);
   const [netdiskLoading, setNetdiskLoading] = useState(false);
   const [netdiskError, setNetdiskError] = useState<string | null>(null);
@@ -225,7 +225,7 @@ function PlayPageClient() {
     loadMovieDetails();
   }, [videoDoubanId, loadingMovieDetails, movieDetails, loadingBangumiDetails, bangumiDetails]);
 
-  // 自动网盘搜索：当有视频标题时可以随时搜索
+  // 自动：当有视频标题时可以随时搜索
   useEffect(() => {
     // 移除自动搜索，改为用户点击按钮时触发
     // 这样可以避免不必要的API调用
@@ -632,7 +632,7 @@ function PlayPageClient() {
     return queryWords.every(word => resultTitle.includes(word));
   };
 
-  // 网盘搜索函数
+  // 函数
   const handleNetDiskSearch = async (query: string) => {
     if (!query.trim()) return;
 
@@ -648,13 +648,13 @@ function PlayPageClient() {
       if (data.success) {
         setNetdiskResults(data.data.merged_by_type || {});
         setNetdiskTotal(data.data.total || 0);
-        console.log(`网盘搜索完成: "${query}" - ${data.data.total || 0} 个结果`);
+        console.log(`完成: "${query}" - ${data.data.total || 0} 个结果`);
       } else {
-        setNetdiskError(data.error || '网盘搜索失败');
+        setNetdiskError(data.error || '失败');
       }
     } catch (error: any) {
-      console.error('网盘搜索请求失败:', error);
-      setNetdiskError('网盘搜索请求失败，请稍后重试');
+      console.error('请求失败:', error);
+      setNetdiskError('请求失败，请稍后重试');
     } finally {
       setNetdiskLoading(false);
     }
@@ -4188,7 +4188,7 @@ function PlayPageClient() {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    // 触发网盘搜索（如果还没搜索过）
+                    // 触发（如果还没搜索过）
                     if (!netdiskResults && !netdiskLoading && videoTitle) {
                       handleNetDiskSearch(videoTitle);
                     }
@@ -4212,7 +4212,7 @@ function PlayPageClient() {
                     ) : netdiskTotal > 0 ? (
                       <span>{netdiskTotal}个网盘资源</span>
                     ) : (
-                      <span>网盘搜索👆</span>
+                      <span>网盘资源</span>
                     )}
                   </div>
                 </button>
