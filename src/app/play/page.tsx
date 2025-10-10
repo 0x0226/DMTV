@@ -4505,7 +4505,7 @@ function PlayPageClient() {
                     </h3>
                     {videoTitle && !netdiskLoading && !netdiskResults && (
                       <p className='text-sm text-gray-500 dark:text-gray-400 mt-2'>
-                        点击上方"📁 网盘资源"按钮开始搜索
+                        点击上方"📁 网盘搜索"按钮开始搜索
                       </p>
                     )}
                     {videoTitle && !netdiskLoading && (netdiskResults || netdiskError) && (
