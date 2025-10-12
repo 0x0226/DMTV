@@ -33,11 +33,6 @@ const MobileBottomNav = ({ activePath }: MobileBottomNavProps) => {
       href: '/douban?type=tv',
     },
     {
-      icon: Search,
-      label: '搜索',
-      href: '/search',
-    },
-    {
       icon: Cat,
       label: '动漫',
       href: '/douban?type=anime',
@@ -48,10 +43,15 @@ const MobileBottomNav = ({ activePath }: MobileBottomNavProps) => {
       href: '/douban?type=show',
     },
     {
-      icon: PlaySquare,
-      label: '短剧',
-      href: '/shortdrama',
+      icon: Search,
+      label: '搜索',
+      href: '/search',
     },
+    // {
+    //   icon: PlaySquare,
+    //   label: '短剧',
+    //   href: '/shortdrama',
+    // },
   ]);
 
   useEffect(() => {
