@@ -564,7 +564,7 @@ function HomeClient() {
               </section>
 
               {/* 热门短剧 */}
-              <section className='mb-8'>
+              {/* <section className='mb-8'>
                 <div className='mb-4 flex items-center justify-between'>
                   <SectionTitle title="热门短剧" icon={Play} iconColor="text-orange-500" />
                   <Link
@@ -591,7 +591,7 @@ function HomeClient() {
                       </div>
                     ))}
                 </ScrollableRow>
-              </section>
+              </section> */}
             </>
           )}
         </div>
