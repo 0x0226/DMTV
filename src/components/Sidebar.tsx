@@ -150,11 +150,11 @@ const Sidebar = ({ onToggle, activePath = '/' }: SidebarProps) => {
       label: '综艺',
       href: '/douban?type=show',
     },
-    {
-      icon: PlaySquare,
-      label: '短剧',
-      href: '/shortdrama',
-    },
+    // {
+    //   icon: PlaySquare,
+    //   label: '短剧',
+    //   href: '/shortdrama',
+    // },
     // {
     //   icon: Radio,
     //   label: '直播',
