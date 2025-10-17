@@ -37,11 +37,11 @@ const MobileBottomNav = ({ activePath }: MobileBottomNavProps) => {
       label: '剧集',
       href: '/douban?type=tv',
     },
-    {
-      icon: PlaySquare,
-      label: '短剧',
-      href: '/shortdrama',
-    },
+    // {
+    //   icon: PlaySquare,
+    //   label: '短剧',
+    //   href: '/shortdrama',
+    // },
     {
       icon: Cat,
       label: '动漫',
@@ -52,11 +52,11 @@ const MobileBottomNav = ({ activePath }: MobileBottomNavProps) => {
       label: '综艺',
       href: '/douban?type=show',
     },
-    {
-      icon: Radio,
-      label: '直播',
-      href: '/live',
-    },
+    // {
+    //   icon: Radio,
+    //   label: '直播',
+    //   href: '/live',
+    // },
   ]);
 
   useEffect(() => {
