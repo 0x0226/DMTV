@@ -11,6 +11,7 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 import { SearchResult } from '@/lib/types';
 
@@ -177,11 +178,18 @@ export default function SourceTestModule() {
   const [isTestingAll, setIsTestingAll] = useState(false);
   const [selectedResults, setSelectedResults] = useState<SearchResult[]>([]);
   const [showResultsModal, setShowResultsModal] = useState(false);
+  const [isDrawerAnimating, setIsDrawerAnimating] = useState(false);
   const [onlyEnabled, setOnlyEnabled] = useState(true);
   const [sortKey, setSortKey] = useState<
-    'status' | 'responseTime' | 'resultCount' | 'matchRate' | 'name'
-  >('status');
+    'status' | 'responseTime' | 'resultCount' | 'matchRate' | 'name' | 'default'
+  >('default');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [mounted, setMounted] = useState(false);
+
+  // 客户端挂载标记
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // 加载所有源
   useEffect(() => {
@@ -273,7 +281,39 @@ export default function SourceTestModule() {
   const handleViewResults = (results: SearchResult[]) => {
     setSelectedResults(results);
     setShowResultsModal(true);
+    // 延迟触发动画，确保元素已渲染
+    setTimeout(() => setIsDrawerAnimating(true), 10);
   };
+
+  // 关闭抽屉
+  const handleCloseDrawer = () => {
+    setIsDrawerAnimating(false);
+    // 等待动画完成后再隐藏
+    setTimeout(() => setShowResultsModal(false), 300);
+  };
+
+  // 防止滚动穿透
+  useEffect(() => {
+    if (showResultsModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [showResultsModal]);
+
+  // ESC键关闭抽屉
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && showResultsModal) {
+        handleCloseDrawer();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [showResultsModal]);
 
   // 启用/禁用源
   const toggleSource = async (source: ApiSite) => {
@@ -400,6 +440,11 @@ export default function SourceTestModule() {
   const getSortedSources = () => {
     const scope = onlyEnabled ? sources.filter((s) => !s.disabled) : sources;
 
+    // 如果是默认排序，保持原始顺序，不排序
+    if (sortKey === 'default') {
+      return scope;
+    }
+
     const statusWeight = (s?: SourceTestResult) => {
       // 数值越大表示越靠后（差）
       if (!s) return 4; // 未测试
@@ -433,6 +478,8 @@ export default function SourceTestModule() {
           return typeof r?.matchRate === 'number' ? r!.matchRate! : -1; // 未测试置为-1，降序时排后
         case 'name':
           return src.name.toLowerCase();
+        default:
+          return 0;
       }
     };
 
@@ -458,20 +505,20 @@ export default function SourceTestModule() {
   };
 
   return (
-    <div className='max-w-7xl mx-auto p-4 space-y-6'>
+    <div className='max-w-7xl mx-auto p-3 sm:p-4 space-y-4 sm:space-y-6'>
       {/* 标题 */}
       <div className='text-center'>
-        <h1 className='text-2xl font-bold text-gray-900 dark:text-white mb-2'>
+        <h1 className='text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2'>
           源检测工具
         </h1>
-        <p className='text-gray-600 dark:text-gray-400'>
+        <p className='text-sm sm:text-base text-gray-600 dark:text-gray-400'>
           测试各个源的搜索功能和响应速度，查看搜索结果质量
         </p>
       </div>
 
       {/* 搜索控制 */}
-      <div className='bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm'>
-        <div className='flex flex-col sm:flex-row gap-4'>
+      <div className='bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-sm'>
+        <div className='flex flex-col gap-3 sm:gap-4'>
           <div className='flex-1'>
             <label className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
               搜索关键词
@@ -490,8 +537,8 @@ export default function SourceTestModule() {
             </div>
           </div>
 
-          <div className='flex items-end'>
-            <label className='flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300'>
+          <div className='flex flex-col sm:flex-row items-stretch sm:items-end gap-3'>
+            <label className='flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 px-1'>
               <input
                 type='checkbox'
                 className='w-4 h-4 rounded border-gray-300 dark:border-gray-600'
@@ -500,17 +547,15 @@ export default function SourceTestModule() {
               />
               仅测试启用源
             </label>
-          </div>
 
-          <div className='flex items-end'>
             <button
               onClick={handleTestAll}
               disabled={
                 isTestingAll || !searchKeyword.trim() || sources.length === 0
               }
-              className='px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 
+              className='px-4 sm:px-6 py-2.5 sm:py-2 bg-green-600 text-white rounded-lg hover:bg-green-700
                        disabled:bg-gray-400 disabled:cursor-not-allowed
-                       flex items-center gap-2 whitespace-nowrap'
+                       flex items-center justify-center gap-2 whitespace-nowrap transition-colors'
             >
               {isTestingAll ? (
                 <ArrowPathIcon className='w-4 h-4 animate-spin' />
@@ -525,11 +570,11 @@ export default function SourceTestModule() {
 
       {/* 统计信息 */}
       {testResults.size > 0 && (
-        <div className='bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm'>
-          <h3 className='text-lg font-semibold text-gray-900 dark:text-white mb-4'>
+        <div className='bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-sm'>
+          <h3 className='text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4'>
             测试统计
           </h3>
-          <div className='grid grid-cols-2 sm:grid-cols-5 gap-4'>
+          <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4'>
             <div className='text-center'>
               <div className='text-2xl font-bold text-gray-900 dark:text-white'>
                 {stats.total}
@@ -573,13 +618,13 @@ export default function SourceTestModule() {
           </div>
 
           {/* 详细统计 */}
-          <div className='mt-4 pt-4 border-t border-gray-200 dark:border-gray-700'>
-            <div className='grid grid-cols-2 gap-6'>
+          <div className='mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-200 dark:border-gray-700'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6'>
               <div>
-                <h4 className='text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
+                <h4 className='text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
                   启用源 ({stats.enabledTotal})
                 </h4>
-                <div className='flex gap-4 text-sm'>
+                <div className='flex flex-wrap gap-2 sm:gap-4 text-xs sm:text-sm'>
                   <span className='text-green-600'>
                     成功: {stats.enabledSuccess}
                   </span>
@@ -595,10 +640,10 @@ export default function SourceTestModule() {
                 </div>
               </div>
               <div>
-                <h4 className='text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
+                <h4 className='text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
                   禁用源 ({stats.disabledTotal})
                 </h4>
-                <div className='flex gap-4 text-sm'>
+                <div className='flex flex-wrap gap-2 sm:gap-4 text-xs sm:text-sm'>
                   <span className='text-green-600'>
                     成功: {stats.disabledSuccess}
                   </span>
@@ -619,20 +664,21 @@ export default function SourceTestModule() {
       )}
 
       {/* 源列表 */}
-      <div className='bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm'>
+      <div className='bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-sm'>
         <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4'>
-          <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
+          <h3 className='text-base sm:text-lg font-semibold text-gray-900 dark:text-white'>
             源列表 ({sources.length} 个源)
           </h3>
-          <div className='flex items-center gap-3'>
-            <label className='text-sm text-gray-600 dark:text-gray-300'>
+          <div className='flex items-center gap-2 sm:gap-3 flex-wrap'>
+            <label className='text-xs sm:text-sm text-gray-600 dark:text-gray-300'>
               排序
             </label>
             <select
               value={sortKey}
               onChange={(e) => setSortKey(e.target.value as any)}
-              className='text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-700 text-gray-900 dark:text-white'
+              className='text-xs sm:text-sm border border-gray-300 dark:border-gray-600 rounded-lg px-2 sm:px-3 py-1.5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent'
             >
+              <option value='default'>默认顺序</option>
               <option value='status'>状态</option>
               <option value='responseTime'>耗时</option>
               <option value='resultCount'>结果数</option>
@@ -643,10 +689,10 @@ export default function SourceTestModule() {
               onClick={() =>
                 setSortOrder((p) => (p === 'asc' ? 'desc' : 'asc'))
               }
-              className='text-sm px-2 py-1 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200'
+              className='text-xs sm:text-sm px-2 sm:px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors'
               title='切换升序/降序'
             >
-              {sortOrder === 'asc' ? '升序' : '降序'}
+              {sortOrder === 'asc' ? '↑ 升序' : '↓ 降序'}
             </button>
           </div>
         </div>
@@ -657,20 +703,20 @@ export default function SourceTestModule() {
             return (
               <div
                 key={source.key}
-                className={`border rounded-lg p-4 ${
+                className={`border rounded-lg p-4 transition-all hover:shadow-md ${
                   source.disabled
                     ? 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900'
-                    : 'border-gray-200 dark:border-gray-700'
+                    : 'border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-700'
                 }`}
               >
-                <div className='flex items-center justify-between'>
+                <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-3'>
                   <div className='flex items-center gap-3 flex-1'>
                     {getStatusIcon(
                       result?.status || 'pending',
                       source.disabled
                     )}
-                    <div className='flex-1'>
-                      <div className='flex items-center gap-2'>
+                    <div className='flex-1 min-w-0'>
+                      <div className='flex items-center gap-2 flex-wrap'>
                         <span
                           className={`font-medium ${
                             source.disabled
@@ -686,18 +732,21 @@ export default function SourceTestModule() {
                           </span>
                         )}
                       </div>
-                      <div className='text-sm text-gray-500 dark:text-gray-400'>
-                        {source.key} • {source.api}
+                      <div className='text-sm text-gray-500 dark:text-gray-400 mt-1'>
+                        <div className='font-mono text-xs'>{source.key}</div>
+                        <div className='truncate hover:whitespace-normal hover:break-all transition-all cursor-pointer' title={source.api}>
+                          {source.api}
+                        </div>
                       </div>
                     </div>
 
                     {result && (
-                      <div className='text-right'>
+                      <div className='text-right min-w-0 hidden md:block'>
                         <div className='text-sm text-gray-600 dark:text-gray-400'>
                           {result.responseTime && `${result.responseTime}ms`}
                         </div>
                         {result.status === 'success' && (
-                          <div className='text-sm text-green-600'>
+                          <div className='text-sm text-green-600 font-medium'>
                             {typeof result.resultCount === 'number'
                               ? result.resultCount
                               : result.results.length}{' '}
@@ -710,19 +759,19 @@ export default function SourceTestModule() {
                           </div>
                         )}
                         {result.status === 'error' && (
-                          <div className='text-sm text-red-600'>请求失败</div>
+                          <div className='text-sm text-red-600 font-medium'>请求失败</div>
                         )}
                         {result.status === 'timeout' && (
-                          <div className='text-sm text-yellow-600'>
+                          <div className='text-sm text-yellow-600 font-medium'>
                             请求超时
                           </div>
                         )}
                         {result.status === 'testing' && (
-                          <div className='text-sm text-blue-600'>测试中...</div>
+                          <div className='text-sm text-blue-600 font-medium'>测试中...</div>
                         )}
                         {result.topMatches && result.topMatches.length > 0 && (
                           <div
-                            className='text-xs text-gray-500 truncate'
+                            className='text-xs text-gray-500 truncate max-w-xs'
                             title={result.topMatches.join(' | ')}
                           >
                             示例: {result.topMatches.join(' | ')}
@@ -732,11 +781,11 @@ export default function SourceTestModule() {
                     )}
                   </div>
 
-                  <div className='flex items-center gap-2 ml-4'>
+                  <div className='flex flex-col sm:flex-row items-stretch sm:items-center gap-2 mt-3 sm:mt-0 sm:ml-4'>
                     {result?.results && result.results.length > 0 && (
                       <button
                         onClick={() => handleViewResults(result.results)}
-                        className='px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700'
+                        className='px-3 py-2 sm:py-1 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors'
                       >
                         查看结果
                       </button>
@@ -745,7 +794,7 @@ export default function SourceTestModule() {
                     <button
                       onClick={() => handleTestSingle(source.key)}
                       disabled={result?.status === 'testing'}
-                      className={`px-3 py-1 text-sm rounded disabled:cursor-not-allowed ${
+                      className={`px-3 py-2 sm:py-1 text-sm rounded-lg disabled:cursor-not-allowed transition-colors whitespace-nowrap ${
                         source.disabled
                           ? 'bg-orange-600 text-white hover:bg-orange-700 disabled:bg-gray-400'
                           : 'bg-gray-600 text-white hover:bg-gray-700 disabled:bg-gray-400'
@@ -760,7 +809,7 @@ export default function SourceTestModule() {
 
                     <button
                       onClick={() => toggleSource(source)}
-                      className={`px-3 py-1 text-sm rounded ${
+                      className={`px-3 py-2 sm:py-1 text-sm rounded-lg transition-colors ${
                         source.disabled
                           ? 'bg-green-600 hover:bg-green-700 text-white'
                           : 'bg-red-600 hover:bg-red-700 text-white'
@@ -771,9 +820,47 @@ export default function SourceTestModule() {
                   </div>
                 </div>
 
+                {/* 移动端结果信息显示 */}
+                {result && (
+                  <div className='mt-3 pt-3 border-t border-gray-200 dark:border-gray-700 md:hidden'>
+                    <div className='flex items-center justify-between text-sm'>
+                      <div className='text-gray-600 dark:text-gray-400'>
+                        {result.responseTime && `响应时间: ${result.responseTime}ms`}
+                      </div>
+                      {result.status === 'success' && (
+                        <div className='text-green-600 font-medium'>
+                          {typeof result.resultCount === 'number'
+                            ? result.resultCount
+                            : result.results.length}{' '}
+                          个结果
+                          {typeof result.matchRate === 'number' && (
+                            <span className='ml-2 text-gray-500'>
+                              (相关{Math.round((result.matchRate || 0) * 100)}%)
+                            </span>
+                          )}
+                        </div>
+                      )}
+                      {result.status === 'error' && (
+                        <div className='text-red-600 font-medium'>请求失败</div>
+                      )}
+                      {result.status === 'timeout' && (
+                        <div className='text-yellow-600 font-medium'>请求超时</div>
+                      )}
+                      {result.status === 'testing' && (
+                        <div className='text-blue-600 font-medium'>测试中...</div>
+                      )}
+                    </div>
+                    {result.topMatches && result.topMatches.length > 0 && (
+                      <div className='text-xs text-gray-500 mt-1' title={result.topMatches.join(' | ')}>
+                        示例: {result.topMatches.slice(0, 2).join(', ')}
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {result?.error && (
-                  <div className='mt-2 text-sm text-red-600 dark:text-red-400'>
-                    错误: {result.error}
+                  <div className='mt-2 pt-2 text-sm text-red-600 dark:text-red-400 border-t border-red-200 dark:border-red-800'>
+                    <span className='font-medium'>错误:</span> {result.error}
                   </div>
                 )}
               </div>
@@ -782,44 +869,89 @@ export default function SourceTestModule() {
         </div>
       </div>
 
-      {/* 结果详情弹窗 */}
-      {showResultsModal && (
-        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4'>
-          <div className='bg-white dark:bg-gray-800 rounded-lg max-w-6xl w-full max-h-[80vh] overflow-hidden'>
-            <div className='flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700'>
-              <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
-                搜索结果 ({selectedResults.length} 个)
-              </h3>
-              <button
-                onClick={() => setShowResultsModal(false)}
-                className='text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
-              >
-                <XMarkIcon className='w-6 h-6' />
-              </button>
-            </div>
+      {/* 结果详情侧边抽屉 - 使用 Portal 渲染到 body */}
+      {mounted && showResultsModal &&
+        createPortal(
+          <>
+            {/* 遮罩层 */}
+            <div
+              className={`fixed inset-0 bg-black z-[998] transition-opacity duration-300 ${
+                isDrawerAnimating ? 'bg-opacity-50' : 'bg-opacity-0'
+              }`}
+              onClick={handleCloseDrawer}
+            />
 
-            <div className='p-6 overflow-y-auto max-h-[60vh]'>
-              <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
-                {selectedResults.map((result, index) => (
-                  <VideoCard
-                    key={`${result.source}-${result.id}-${index}`}
-                    id={result.id}
-                    title={result.title}
-                    poster={result.poster}
-                    year={result.year}
-                    episodes={result.episodes.length}
-                    source={result.source}
-                    source_name={result.source_name}
-                    from='search'
-                    type={result.type_name}
-                    rate={result.desc}
-                  />
-                ))}
+            {/* 侧边抽屉 */}
+            <div
+              className={`fixed inset-y-0 right-0 z-[1000] w-full sm:w-3/4 md:w-2/3 lg:w-3/5 xl:w-1/2 bg-white dark:bg-gray-800 shadow-2xl transition-transform duration-300 ease-in-out flex flex-col ${
+                isDrawerAnimating ? 'translate-x-0' : 'translate-x-full'
+              }`}
+            >
+              {/* 头部 */}
+              <div className='flex justify-between items-center p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 sticky top-0 z-10 shadow-sm'>
+                <div className='flex-1 min-w-0 mr-4'>
+                  <div className='flex items-center gap-2'>
+                    <h3 className='text-lg sm:text-xl font-semibold text-gray-900 dark:text-white'>
+                      搜索结果
+                    </h3>
+                    <span className='px-2 py-1 text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full'>
+                      {selectedResults.length}
+                    </span>
+                  </div>
+                  {selectedResults.length > 0 && (
+                    <div className='flex items-center gap-2 mt-1'>
+                      <p className='text-sm text-gray-500 dark:text-gray-400'>
+                        来源: {selectedResults[0].source_name}
+                      </p>
+                      <span className='text-gray-300 dark:text-gray-600'>•</span>
+                      <p className='text-sm text-gray-500 dark:text-gray-400'>
+                        关键词: {searchKeyword}
+                      </p>
+                    </div>
+                  )}
+                </div>
+                <button
+                  onClick={handleCloseDrawer}
+                  className='flex-shrink-0 p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors'
+                  title='关闭 (ESC)'
+                >
+                  <XMarkIcon className='w-6 h-6' />
+                </button>
+              </div>
+
+              {/* 内容区域 */}
+              <div className='flex-1 overflow-y-auto p-4 sm:p-6 bg-gray-50 dark:bg-gray-900'>
+                {selectedResults.length > 0 ? (
+                  <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4'>
+                    {selectedResults.map((result, index) => (
+                      <VideoCard
+                        key={`${result.source}-${result.id}-${index}`}
+                        id={result.id}
+                        title={result.title}
+                        poster={result.poster}
+                        year={result.year}
+                        episodes={result.episodes.length}
+                        source={result.source}
+                        source_name={result.source_name}
+                        from='search'
+                        type={result.type_name}
+                        rate={result.desc}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className='flex flex-col items-center justify-center h-full text-center py-12'>
+                    <MagnifyingGlassIcon className='w-16 h-16 text-gray-300 dark:text-gray-600 mb-4' />
+                    <p className='text-gray-500 dark:text-gray-400 text-lg'>
+                      暂无搜索结果
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
-          </div>
-        </div>
-      )}
+          </>,
+          document.body
+        )}
 
       {/* 空状态 */}
       {sources.length === 0 && (
