@@ -623,10 +623,10 @@ function HomeClient() {
 
       <div className='overflow-visible -mt-6 md:mt-0'>
         {/* 欢迎横幅 - 现代化精简设计 */}
-        <div className='mb-6 relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-500/90 via-purple-500/90 to-pink-500/90 backdrop-blur-sm shadow-xl border border-white/20'>
-          <div className='relative p-4 sm:p-5'>
+       {/* <div className='mb-6 relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-500/90 via-purple-500/90 to-pink-500/90 backdrop-blur-sm shadow-xl border border-white/20'>
+          <div className='relative p-4 sm:p-5'> */}
             {/* 动态渐变背景 */}
-            <div className='absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/5'></div>
+            {/* <div className='absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/5'></div>
 
             <div className='relative z-10 flex items-center justify-between gap-4'>
               <div className='flex-1 min-w-0'>
@@ -650,15 +650,15 @@ function HomeClient() {
                 <p className='text-sm text-white/90'>
                   发现更多精彩影视内容 ✨
                 </p>
-              </div>
+              </div> */}
 
               {/* 装饰图标 - 更小更精致 */}
-              <div className='hidden md:flex items-center justify-center flex-shrink-0 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20'>
+              {/* <div className='hidden md:flex items-center justify-center flex-shrink-0 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20'>
                 <Film className='w-6 h-6 text-white' />
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* 顶部 Tab 切换 */}
         <div className='mb-8 flex flex-col sm:flex-row items-center justify-center gap-4'>
