@@ -42,13 +42,13 @@ export default function ModernNav() {
       color: 'text-blue-500',
       gradient: 'from-blue-500 to-cyan-500',
     },
-    {
-      icon: Globe,
-      label: '源浏览器',
-      href: '/source-browser',
-      color: 'text-emerald-500',
-      gradient: 'from-emerald-500 to-green-500',
-    },
+    // {
+    //   icon: Globe,
+    //   label: '源浏览器',
+    //   href: '/source-browser',
+    //   color: 'text-emerald-500',
+    //   gradient: 'from-emerald-500 to-green-500',
+    // },
     {
       icon: Film,
       label: '电影',
@@ -84,13 +84,13 @@ export default function ModernNav() {
       color: 'text-orange-500',
       gradient: 'from-orange-500 to-amber-500',
     },
-    {
-      icon: Radio,
-      label: '直播',
-      href: '/live',
-      color: 'text-teal-500',
-      gradient: 'from-teal-500 to-cyan-500',
-    },
+    // {
+    //   icon: Radio,
+    //   label: '直播',
+    //   href: '/live',
+    //   color: 'text-teal-500',
+    //   gradient: 'from-teal-500 to-cyan-500',
+    // },
   ]);
 
   useEffect(() => {
