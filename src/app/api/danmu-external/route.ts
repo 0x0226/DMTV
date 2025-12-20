@@ -493,7 +493,7 @@ async function fetchDanmuFromXMLAPI(videoUrl: string): Promise<DanmuItem[]> {
       // 解决方案: 智能分段加载 + 动态密度控制 + 预计算优化
 
       const SEGMENT_DURATION = 300; // 5分钟分段
-      const MAX_DANMU_PER_SEGMENT = 1000; // 每段最大弹幕数
+      const MAX_DANMU_PER_SEGMENT = 500; // 每段最大弹幕数
       // const MAX_CONCURRENT_DANMU = 50; // 同时显示的最大弹幕数 - 在前端控制
       const BATCH_SIZE = 200; // 减小批处理大小，更频繁让出控制权
 
