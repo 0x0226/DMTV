@@ -595,7 +595,7 @@ if (typeof window !== 'undefined') {
 function fetchWithTimeout(
   url: string,
   options: RequestInit = {},
-  timeout = 30000 // 默认30秒超时（从15秒提升至30秒，以适应更复杂的数据库查询）
+  timeout = 15000 // 默认15秒超时
 ): Promise<Response> {
   return new Promise((resolve, reject) => {
     const controller = new AbortController();
@@ -630,38 +630,28 @@ async function fetchWithAuth(
   url: string,
   options?: RequestInit
 ): Promise<Response> {
-  try {
-    const res = await fetchWithTimeout(url, options);
-    if (!res.ok) {
-      // 如果是 401 未授权，跳转到登录页面
-      if (res.status === 401) {
-        // 调用 logout 接口
-        try {
-          await fetch('/api/logout', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-          });
-        } catch (error) {
-          console.error('注销请求失败:', error);
-        }
-        const currentUrl = window.location.pathname + window.location.search;
-        const loginUrl = new URL('/login', window.location.origin);
-        loginUrl.searchParams.set('redirect', currentUrl);
-        window.location.href = loginUrl.toString();
-        throw new Error('用户未授权，已跳转到登录页面');
+  const res = await fetchWithTimeout(url, options);
+  if (!res.ok) {
+    // 如果是 401 未授权，跳转到登录页面
+    if (res.status === 401) {
+      // 调用 logout 接口
+      try {
+        await fetch('/api/logout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+        });
+      } catch (error) {
+        console.error('注销请求失败:', error);
       }
-      throw new Error(`请求 ${url} 失败: ${res.status}`);
+      const currentUrl = window.location.pathname + window.location.search;
+      const loginUrl = new URL('/login', window.location.origin);
+      loginUrl.searchParams.set('redirect', currentUrl);
+      window.location.href = loginUrl.toString();
+      throw new Error('用户未授权，已跳转到登录页面');
     }
-    return res;
-  } catch (error) {
-    // 捕获网络错误或超时错误，提供更详细的错误信息
-    if (error instanceof Error) {
-      console.error(`[fetchWithAuth] ${url} 失败:`, error.message);
-    } else {
-      console.error(`[fetchWithAuth] ${url} 失败:`, error);
-    }
-    throw error;
+    throw new Error(`请求 ${url} 失败: ${res.status}`);
   }
+  return res;
 }
 
 /**
@@ -1337,9 +1327,8 @@ export async function getAllFavorites(): Promise<Record<string, Favorite>> {
           }
         })
         .catch((err) => {
-          const errMsg = err instanceof Error ? err.message : String(err);
-          console.warn('[后台同步收藏失败]', errMsg);
-          // 后台同步失败不影响返回缓存数据，仅提示警告
+          console.warn('后台同步收藏失败:', err);
+          triggerGlobalError('后台同步收藏失败');
         });
 
       return cachedData;
@@ -1524,9 +1513,8 @@ export async function isFavorited(
           }
         })
         .catch((err) => {
-          const errMsg = err instanceof Error ? err.message : String(err);
-          console.warn('[后台同步收藏失败]', errMsg);
-          // 后台同步失败不影响返回缓存数据，仅提示警告
+          console.warn('后台同步收藏失败:', err);
+          triggerGlobalError('后台同步收藏失败');
         });
 
       return !!cachedFavorites[key];
