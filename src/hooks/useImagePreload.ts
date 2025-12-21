@@ -26,6 +26,8 @@ export function useImagePreload(imageUrls: string[], enabled = true) {
       link.href = url;
       // Set fetch priority to low (not blocking visible content)
       (link as any).fetchPriority = 'low';
+      // 收藏同步失败修复
+      link.referrerPolicy = 'no-referrer-when-downgrade';
 
       document.head.appendChild(link);
       preloadLinks.push(link);
