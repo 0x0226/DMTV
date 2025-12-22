@@ -97,7 +97,7 @@ export default function AIRecommendModal({ isOpen, onClose }: AIRecommendModalPr
       // 没有有效缓存时显示欢迎消息
       const welcomeMessage: ExtendedAIMessage = {
         role: 'assistant',
-        content: '你好！我是AI智能助手，支持以下功能：\n\n🎬 影视剧推荐 - 推荐电影、电视剧、动漫等\n🔗 视频链接解析 - 解析YouTube链接并播放\n📺 视频内容搜索 - 搜索相关视频内容\n\n💡 直接告诉我你想看什么类型的内容，或发送YouTube链接给我解析！',
+        content: '你好！我是AI智能助手，支持以下功能：\n\n🎬 影视剧推荐 - 推荐电影、电视剧、动漫等\n📺 视频内容搜索 - 搜索相关视频内容\n\n💡 直接告诉我你想看什么类型的内容。',
         timestamp: new Date().toISOString()
       };
       setMessages([welcomeMessage]);
@@ -267,7 +267,7 @@ export default function AIRecommendModal({ isOpen, onClose }: AIRecommendModalPr
     // 重新显示欢迎消息
     const welcomeMessage: ExtendedAIMessage = {
       role: 'assistant',
-      content: '你好！我是AI智能助手，支持以下功能：\n\n🎬 影视剧推荐 - 推荐电影、电视剧、动漫等\n🔗 视频链接解析 - 解析YouTube链接并播放\n📺 视频内容搜索 - 搜索相关视频内容\n\n💡 直接告诉我你想看什么类型的内容，或发送YouTube链接给我解析！',
+      content: '你好！我是AI智能助手，支持以下功能：\n\n🎬 影视剧推荐 - 推荐电影、电视剧、动漫等\n📺 视频内容搜索 - 搜索相关视频内容\n\n💡 直接告诉我你想看什么类型的内容。',
       timestamp: new Date().toISOString()
     };
     setMessages([welcomeMessage]);
@@ -294,7 +294,7 @@ export default function AIRecommendModal({ isOpen, onClose }: AIRecommendModalPr
             </div>
             <div>
               <h2 className="text-xl font-bold text-white drop-shadow-sm">AI 智能助手</h2>
-              <p className="text-blue-50/90 text-sm font-medium">影视推荐 · 视频解析 · YouTube搜索</p>
+              <p className="text-blue-50/90 text-sm font-medium">影视推荐 · 视频解析</p>
             </div>
           </div>
           <div className="flex items-center space-x-2">
@@ -329,7 +329,7 @@ export default function AIRecommendModal({ isOpen, onClose }: AIRecommendModalPr
                 欢迎使用AI智能助手
               </h3>
               <p className="text-gray-600 dark:text-gray-400 mb-6">
-                支持影视推荐、YouTube链接解析和视频搜索推荐
+                支持影视推荐和视频搜索推荐
               </p>
               
               {/* 预设问题 */}
@@ -643,7 +643,7 @@ export default function AIRecommendModal({ isOpen, onClose }: AIRecommendModalPr
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="输入影视推荐类型、YouTube搜索内容或直接粘贴YouTube链接..."
+                placeholder="输入影视推荐类型..."
                 className="w-full p-3 border border-gray-300/50 dark:border-gray-600/50 rounded-xl bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white dark:focus:bg-gray-750 resize-none transition-all duration-200 shadow-sm"
                 rows={2}
                 disabled={isPending}
@@ -663,7 +663,7 @@ export default function AIRecommendModal({ isOpen, onClose }: AIRecommendModalPr
           <div className="mt-3 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
             <span className="flex items-center gap-1">
               <Sparkles className="h-3 w-3" />
-              支持影视推荐、YouTube链接解析和视频搜索
+              支持影视推荐和视频搜索
             </span>
             <span className="opacity-75">按 Enter 发送，Shift+Enter 换行</span>
           </div>
