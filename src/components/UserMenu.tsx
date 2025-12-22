@@ -128,7 +128,7 @@ export const UserMenu: React.FC = () => {
   // 豆瓣图片代理选项
   const doubanImageProxyTypeOptions = [
     { value: 'direct', label: '直连（浏览器直接请求豆瓣）' },
-    // { value: 'server', label: '服务器代理（由服务器代理请求豆瓣）' },
+    { value: 'server', label: '服务器代理（由服务器代理请求豆瓣）' },
     // { value: 'img3', label: '豆瓣官方精品 CDN（阿里云）' },
     // {
     //   value: 'cmliussss-cdn-tencent',
