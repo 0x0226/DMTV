@@ -595,7 +595,7 @@ if (typeof window !== 'undefined') {
 function fetchWithTimeout(
   url: string,
   options: RequestInit = {},
-  timeout = 30000 // 默认30秒超时
+  timeout = 15000 // 默认15秒超时
 ): Promise<Response> {
   return new Promise((resolve, reject) => {
     const controller = new AbortController();
@@ -1328,7 +1328,7 @@ export async function getAllFavorites(): Promise<Record<string, Favorite>> {
         })
         .catch((err) => {
           console.warn('后台同步收藏失败:', err);
-          // triggerGlobalError('后台同步收藏失败');
+          triggerGlobalError('后台同步收藏失败');
         });
 
       return cachedData;
