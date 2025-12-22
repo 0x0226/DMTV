@@ -595,7 +595,7 @@ if (typeof window !== 'undefined') {
 function fetchWithTimeout(
   url: string,
   options: RequestInit = {},
-  timeout = 15000 // 默认15秒超时
+  timeout = 30000 // 默认30秒超时
 ): Promise<Response> {
   return new Promise((resolve, reject) => {
     const controller = new AbortController();
