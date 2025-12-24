@@ -221,7 +221,7 @@ export const UserMenu: React.FC = () => {
         'doubanImageProxyType'
       );
       const defaultDoubanImageProxyType =
-        (window as any).RUNTIME_CONFIG?.DOUBAN_IMAGE_PROXY_TYPE || 'server';
+        (window as any).RUNTIME_CONFIG?.DOUBAN_IMAGE_PROXY_TYPE || 'direct';
       if (savedDoubanImageProxyType !== null) {
         setDoubanImageProxyType(savedDoubanImageProxyType);
       } else if (defaultDoubanImageProxyType) {
