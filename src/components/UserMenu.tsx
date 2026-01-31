@@ -1214,10 +1214,10 @@ export const UserMenu: React.FC = () => {
           </button>
 
           {/* 分割线 */}
-          <div className='my-1 border-t border-gray-200 dark:border-gray-700'></div>
+          {/* <div className='my-1 border-t border-gray-200 dark:border-gray-700'></div> */}
 
           {/* 版本信息 */}
-          <button
+          {/* <button
             onClick={() => {
               setIsVersionPanelOpen(true);
               handleCloseMenu();
@@ -1239,7 +1239,7 @@ export const UserMenu: React.FC = () => {
                   ></div>
                 )}
             </div>
-          </button>
+          </button> */}
         </div>
       </div>
     </>
