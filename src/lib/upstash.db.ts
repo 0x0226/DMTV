@@ -98,15 +98,18 @@ export class UpstashRedisStorage implements IStorage {
     const keys: string[] = await withRetry(() => this.client.keys(pattern));
     if (keys.length === 0) return {};
 
+    // 🚀 优化：使用 mget 批量获取，只算1条命令（而不是N条）
+    const values = await withRetry(() => this.client.mget<PlayRecord[]>(...keys));
+
     const result: Record<string, PlayRecord> = {};
-    for (const fullKey of keys) {
-      const value = await withRetry(() => this.client.get(fullKey));
+    keys.forEach((fullKey, index) => {
+      const value = values[index];
       if (value) {
         // 截取 source+id 部分
         const keyPart = ensureString(fullKey.replace(`u:${userName}:pr:`, ''));
-        result[keyPart] = value as PlayRecord;
+        result[keyPart] = value;
       }
-    }
+    });
     return result;
   }
 
@@ -141,19 +144,66 @@ export class UpstashRedisStorage implements IStorage {
     const keys: string[] = await withRetry(() => this.client.keys(pattern));
     if (keys.length === 0) return {};
 
+    // 🚀 优化：使用 mget 批量获取，只算1条命令（而不是N条）
+    const values = await withRetry(() => this.client.mget<Favorite[]>(...keys));
+
     const result: Record<string, Favorite> = {};
-    for (const fullKey of keys) {
-      const value = await withRetry(() => this.client.get(fullKey));
+    keys.forEach((fullKey, index) => {
+      const value = values[index];
       if (value) {
         const keyPart = ensureString(fullKey.replace(`u:${userName}:fav:`, ''));
-        result[keyPart] = value as Favorite;
+        result[keyPart] = value;
       }
-    }
+    });
     return result;
   }
 
   async deleteFavorite(userName: string, key: string): Promise<void> {
     await withRetry(() => this.client.del(this.favKey(userName, key)));
+  }
+
+  // ---------- 🚀 批量写入方法（使用 mset，只算1条命令） ----------
+
+  /**
+   * 批量保存播放记录（使用 mset，无论多少条都只算1条命令）
+   * @param userName 用户名
+   * @param records 键值对 { "source+id": PlayRecord }
+   */
+  async setPlayRecordsBatch(
+    userName: string,
+    records: Record<string, PlayRecord>
+  ): Promise<void> {
+    const entries = Object.entries(records);
+    if (entries.length === 0) return;
+
+    // 构建 mset 参数：{ fullKey: JSON.stringify(record) }
+    const msetData: Record<string, string> = {};
+    for (const [key, record] of entries) {
+      msetData[this.prKey(userName, key)] = JSON.stringify(record);
+    }
+
+    await withRetry(() => this.client.mset(msetData));
+  }
+
+  /**
+   * 批量保存收藏（使用 mset，无论多少条都只算1条命令）
+   * @param userName 用户名
+   * @param favorites 键值对 { "source+id": Favorite }
+   */
+  async setFavoritesBatch(
+    userName: string,
+    favorites: Record<string, Favorite>
+  ): Promise<void> {
+    const entries = Object.entries(favorites);
+    if (entries.length === 0) return;
+
+    // 构建 mset 参数：{ fullKey: JSON.stringify(favorite) }
+    const msetData: Record<string, string> = {};
+    for (const [key, favorite] of entries) {
+      msetData[this.favKey(userName, key)] = JSON.stringify(favorite);
+    }
+
+    await withRetry(() => this.client.mset(msetData));
   }
 
   // ---------- 用户注册 / 登录 ----------
@@ -194,8 +244,24 @@ export class UpstashRedisStorage implements IStorage {
 
   // 删除用户及其所有数据
   async deleteUser(userName: string): Promise<void> {
-    // 删除用户密码
+    // 删除用户密码 (V1)
     await withRetry(() => this.client.del(this.userPwdKey(userName)));
+
+    // 删除用户信息 (V2)
+    await withRetry(() => this.client.del(this.userInfoKey(userName)));
+
+    // 从用户列表中移除 (V2)
+    await withRetry(() => this.client.zrem(this.userListKey(), userName));
+
+    // 删除 OIDC 映射（如果存在）
+    try {
+      const userInfo = await this.getUserInfoV2(userName);
+      if (userInfo?.oidcSub) {
+        await withRetry(() => this.client.del(this.oidcSubKey(userInfo.oidcSub!)));
+      }
+    } catch (e) {
+      // 忽略错误，用户信息可能已被删除
+    }
 
     // 删除搜索历史
     await withRetry(() => this.client.del(this.shKey(userName)));
@@ -225,6 +291,15 @@ export class UpstashRedisStorage implements IStorage {
     );
     if (skipConfigKeys.length > 0) {
       await withRetry(() => this.client.del(...skipConfigKeys));
+    }
+
+    // 删除剧集跳过配置
+    const episodeSkipPattern = `u:${userName}:episodeskip:*`;
+    const episodeSkipKeys = await withRetry(() =>
+      this.client.keys(episodeSkipPattern)
+    );
+    if (episodeSkipKeys.length > 0) {
+      await withRetry(() => this.client.del(...episodeSkipKeys));
     }
 
     // 删除用户登入统计数据
@@ -329,13 +404,61 @@ export class UpstashRedisStorage implements IStorage {
       return null;
     }
 
+    // 安全解析 tags 字段
+    let parsedTags: string[] | undefined;
+    if (userInfo.tags) {
+      try {
+        const tagsStr = ensureString(userInfo.tags);
+        // 如果 tags 已经是数组（某些情况），直接使用
+        if (Array.isArray(userInfo.tags)) {
+          parsedTags = userInfo.tags;
+        } else {
+          // 尝试 JSON 解析
+          const parsed = JSON.parse(tagsStr);
+          parsedTags = Array.isArray(parsed) ? parsed : [parsed];
+        }
+      } catch (e) {
+        // JSON 解析失败，可能是单个字符串值
+        console.warn(`用户 ${userName} tags 解析失败，原始值:`, userInfo.tags);
+        const tagsStr = ensureString(userInfo.tags);
+        // 如果是逗号分隔的字符串
+        if (tagsStr.includes(',')) {
+          parsedTags = tagsStr.split(',').map(t => t.trim());
+        } else {
+          parsedTags = [tagsStr];
+        }
+      }
+    }
+
+    // 安全解析 enabledApis 字段
+    let parsedApis: string[] | undefined;
+    if (userInfo.enabledApis) {
+      try {
+        const apisStr = ensureString(userInfo.enabledApis);
+        if (Array.isArray(userInfo.enabledApis)) {
+          parsedApis = userInfo.enabledApis;
+        } else {
+          const parsed = JSON.parse(apisStr);
+          parsedApis = Array.isArray(parsed) ? parsed : [parsed];
+        }
+      } catch (e) {
+        console.warn(`用户 ${userName} enabledApis 解析失败`);
+        const apisStr = ensureString(userInfo.enabledApis);
+        if (apisStr.includes(',')) {
+          parsedApis = apisStr.split(',').map(t => t.trim());
+        } else {
+          parsedApis = [apisStr];
+        }
+      }
+    }
+
     return {
       username: userName,
       role: (userInfo.role as 'owner' | 'admin' | 'user') || 'user',
       banned: userInfo.banned === 'true',
-      tags: userInfo.tags ? JSON.parse(ensureString(userInfo.tags)) : undefined,
+      tags: parsedTags,
       oidcSub: userInfo.oidcSub ? ensureString(userInfo.oidcSub) : undefined,
-      enabledApis: userInfo.enabledApis ? JSON.parse(ensureString(userInfo.enabledApis)) : undefined,
+      enabledApis: parsedApis,
       createdAt: userInfo.created_at ? parseInt(ensureString(userInfo.created_at), 10) : undefined,
     };
   }
@@ -1175,6 +1298,8 @@ function getUpstashRedisClient(): Redis {
     client = new Redis({
       url: upstashUrl,
       token: upstashToken,
+      // 启用 auto-pipelining 减少 HTTP 往返延迟
+      enableAutoPipelining: true,
       // 可选配置
       retry: {
         retries: 3,

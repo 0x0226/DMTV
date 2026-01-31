@@ -57,6 +57,8 @@ export interface AdminConfig {
     from: 'config' | 'custom';
     disabled?: boolean;
     is_adult?: boolean;
+    type?: 'vod' | 'shortdrama'; // 视频源类型：vod=普通视频，shortdrama=短剧（系统会自动查找"短剧"分类）
+    weight?: number; // 优先级权重：0-100，数字越大优先级越高，默认50。播放时先按权重排序，同权重再按测速结果
   }[];
   CustomCategories: {
     name?: string;
@@ -71,6 +73,7 @@ export interface AdminConfig {
     url: string;  // m3u 地址
     ua?: string;
     epg?: string; // 节目单
+    isTvBox?: boolean;
     from: 'config' | 'custom';
     channelNumber?: number;
     disabled?: boolean;
@@ -88,6 +91,10 @@ export interface AdminConfig {
     model: string;                       // 模型名称
     temperature: number;                 // 温度参数 0-2
     maxTokens: number;                   // 最大token数
+    // 🔥 智能协调器（Orchestrator）配置
+    enableOrchestrator?: boolean;        // 是否启用智能协调器（意图分析+联网搜索）
+    enableWebSearch?: boolean;           // 是否启用联网搜索
+    tavilyApiKeys?: string[];            // Tavily API Keys（支持多个轮询，1000次/月免费）
   };
   YouTubeConfig?: {
     enabled: boolean;                    // 是否启用YouTube搜索功能
@@ -104,6 +111,14 @@ export interface AdminConfig {
     allowedIPs: string[];               // 允许的IP地址列表
     enableRateLimit: boolean;            // 是否启用频率限制
     rateLimit: number;                   // 每分钟允许的请求次数
+  };
+  TVBoxProxyConfig?: {
+    enabled: boolean;                    // 是否为TVBox启用Cloudflare Worker代理
+    proxyUrl: string;                    // Cloudflare Worker代理地址（例如：https://corsapi.smone.workers.dev）
+  };
+  VideoProxyConfig?: {
+    enabled: boolean;                    // 是否为普通视频源启用Cloudflare Worker代理
+    proxyUrl: string;                    // Cloudflare Worker代理地址（例如：https://corsapi.smone.workers.dev）
   };
   TelegramAuthConfig?: {
     enabled: boolean;                    // 是否启用Telegram登录
@@ -154,6 +169,28 @@ export interface AdminConfig {
     enabled: boolean;                    // 是否启用观影室功能
     serverUrl: string;                   // 外部观影室服务器地址
     authKey: string;                     // 观影室服务器认证密钥
+  };
+  DoubanConfig?: {
+    enablePuppeteer: boolean;            // 是否启用 Puppeteer 绕过 Challenge（默认 false）
+    cookies?: string;                    // 豆瓣认证 Cookies（包含 dbcl2, frodotk_db, ck 等）
+  };
+  CronConfig?: {
+    enableAutoRefresh: boolean;          // 是否启用自动刷新播放记录和收藏（默认 true）
+    maxRecordsPerRun: number;            // 每次运行最多处理的记录数（默认 100）
+    onlyRefreshRecent: boolean;          // 仅刷新最近活跃的记录（默认 true）
+    recentDays: number;                  // 最近活跃的天数定义（默认 30）
+    onlyRefreshOngoing: boolean;         // 仅刷新连载中的剧集（默认 true）
+  };
+  TrustedNetworkConfig?: {
+    enabled: boolean;                    // 是否启用信任网络模式（内网免登录）
+    trustedIPs: string[];               // 信任的IP/CIDR列表（如 192.168.0.0/16, 10.0.0.0/8）
+  };
+  DanmuApiConfig?: {
+    enabled: boolean;                    // 是否启用弹幕API（默认启用）
+    useCustomApi: boolean;               // 是否使用自定义API（false则使用默认API）
+    customApiUrl: string;                // 自定义弹幕API地址
+    customToken: string;                 // 自定义API Token
+    timeout: number;                     // 请求超时时间（秒），默认15
   };
 }
 

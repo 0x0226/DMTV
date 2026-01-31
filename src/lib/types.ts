@@ -14,6 +14,8 @@ export interface PlayRecord {
   save_time: number; // 记录保存时间（时间戳）
   search_title: string; // 搜索时使用的标题
   remarks?: string; // 备注信息（如"已完结"、"更新至20集"等）
+  douban_id?: number; // 豆瓣ID（用于准确识别视频）
+  type?: string; // 内容类型（anime/tv/movie）用于继续播放时正确请求详情
 }
 
 // 收藏数据结构
@@ -99,12 +101,22 @@ export interface IStorage {
   ): Promise<void>;
   getAllPlayRecords(userName: string): Promise<{ [key: string]: PlayRecord }>;
   deletePlayRecord(userName: string, key: string): Promise<void>;
+  // 🚀 批量写入播放记录（Upstash 优化，使用 mset 只算1条命令）
+  setPlayRecordsBatch?(
+    userName: string,
+    records: { [key: string]: PlayRecord }
+  ): Promise<void>;
 
   // 收藏相关
   getFavorite(userName: string, key: string): Promise<Favorite | null>;
   setFavorite(userName: string, key: string, favorite: Favorite): Promise<void>;
   getAllFavorites(userName: string): Promise<{ [key: string]: Favorite }>;
   deleteFavorite(userName: string, key: string): Promise<void>;
+  // 🚀 批量写入收藏（Upstash 优化，使用 mset 只算1条命令）
+  setFavoritesBatch?(
+    userName: string,
+    favorites: { [key: string]: Favorite }
+  ): Promise<void>;
 
   // 用户相关
   registerUser(userName: string, password: string): Promise<void>;
@@ -215,6 +227,9 @@ export interface DoubanItem {
   movie_duration?: number;
   first_aired?: string;
   plot_summary?: string;
+  // 🎬 Netflix风格字段
+  backdrop?: string;      // 高清背景图（用于HeroBanner）
+  trailerUrl?: string;    // 预告片视频URL
 }
 
 export interface DoubanResult {
