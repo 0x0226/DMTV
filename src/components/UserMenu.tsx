@@ -1099,13 +1099,13 @@ export const UserMenu: React.FC = () => {
             >
               <Bell className='w-4 h-4 text-gray-500 dark:text-gray-400' />
               <span className='font-medium'>更新提醒</span>
-              /* {hasUnreadUpdates && totalUpdates > 0 && (
+              {/* {hasUnreadUpdates && totalUpdates > 0 && (
                 <div className='ml-auto flex items-center gap-1'>
                   <span className='inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full'>
                     {totalUpdates > 99 ? '99+' : totalUpdates}
                   </span>
                 </div>
-              )} */
+              )} */}
             </button>
           )}
 
