@@ -1099,13 +1099,13 @@ export const UserMenu: React.FC = () => {
             >
               <Bell className='w-4 h-4 text-gray-500 dark:text-gray-400' />
               <span className='font-medium'>更新提醒</span>
-              {hasUnreadUpdates && totalUpdates > 0 && (
+              /* {hasUnreadUpdates && totalUpdates > 0 && (
                 <div className='ml-auto flex items-center gap-1'>
                   <span className='inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full'>
                     {totalUpdates > 99 ? '99+' : totalUpdates}
                   </span>
                 </div>
-              )}
+              )} */
             </button>
           )}
 
@@ -1171,13 +1171,13 @@ export const UserMenu: React.FC = () => {
           </button>
 
           {/* TVBox配置按钮 */}
-          <button
+          {/* <button
             onClick={handleTVBoxConfig}
             className='w-full px-3 py-2 text-left flex items-center gap-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-[background-color] duration-150 ease-in-out text-sm'
           >
             <Tv className='w-4 h-4 text-gray-500 dark:text-gray-400' />
             <span className='font-medium'>TVBox 配置</span>
-          </button>
+          </button> */}
 
           {/* 观影室按钮 */}
           {showWatchRoom && (
