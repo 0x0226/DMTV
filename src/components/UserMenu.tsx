@@ -248,7 +248,7 @@ export const UserMenu: React.FC = () => {
 
       const savedDoubanDataSource = localStorage.getItem('doubanDataSource');
       const defaultDoubanProxyType =
-        (window as any).RUNTIME_CONFIG?.DOUBAN_PROXY_TYPE || 'direct';
+        (window as any).RUNTIME_CONFIG?.DOUBAN_PROXY_TYPE || 'cors-proxy-zwei';
       if (savedDoubanDataSource !== null) {
         setDoubanDataSource(savedDoubanDataSource);
       } else if (defaultDoubanProxyType) {
