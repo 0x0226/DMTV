@@ -126,8 +126,8 @@ export const UserMenu: React.FC = () => {
 
   // 豆瓣数据源选项
   const doubanDataSourceOptions = [
-    { value: 'direct', label: '直连（服务器直接请求豆瓣）' },
     { value: 'cors-proxy-zwei', label: 'Cors Proxy By Zwei' },
+    { value: 'direct', label: '直连（服务器直接请求豆瓣）' },
     {
       value: 'cmliussss-cdn-tencent',
       label: '豆瓣 CDN By CMLiussss（腾讯云）',
