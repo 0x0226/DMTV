@@ -292,7 +292,7 @@ function LoginPageClient() {
           <h1 className='text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 dark:from-green-400 dark:via-emerald-400 dark:to-teal-400 tracking-tight text-3xl sm:text-4xl font-extrabold mb-2 drop-shadow-sm'>
             {siteName}
           </h1>
-          <p className='text-gray-600 dark:text-gray-400 text-xs sm:text-sm font-medium'>欢迎回来，请登录您的账户</p>
+          <p className='text-gray-600 dark:text-gray-400 text-xs sm:text-sm font-medium'>海量影视内容、网盘搜索</p>
         </div>
 
         <form onSubmit={handleSubmit} className='space-y-4 sm:space-y-6'>
@@ -361,8 +361,8 @@ function LoginPageClient() {
           {/* 注册链接 - 仅在非 localStorage 模式下显示 */}
           {shouldAskUsername && (
             <div className='mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-700'>
-              <p className='text-center text-gray-600 dark:text-gray-400 text-xs sm:text-sm mb-2.5 sm:mb-3'>
-                还没有账户？
+              <p className='text-center text-red-600 dark:text-red-500 text-xs sm:text-sm mb-2.5 sm:mb-3'>
+                和OPNANA账户不通用，请重新注册
               </p>
               <a
                 href='/register'
