@@ -55,13 +55,13 @@ export default function ModernNav({ showAIButton = false, onAIButtonClick }: Mod
       color: 'text-emerald-500',
       gradient: 'from-emerald-500 to-green-500',
     },
-    {
-      icon: Film,
-      label: '电影',
-      href: '/douban?type=movie',
-      color: 'text-red-500',
-      gradient: 'from-red-500 to-pink-500',
-    },
+    // {
+    //   icon: Film,
+    //   label: '电影',
+    //   href: '/douban?type=movie',
+    //   color: 'text-red-500',
+    //   gradient: 'from-red-500 to-pink-500',
+    // },
     {
       icon: Tv,
       label: '剧集',
