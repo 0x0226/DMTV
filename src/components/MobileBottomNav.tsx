@@ -53,14 +53,14 @@ const MobileBottomNav = ({ activePath }: MobileBottomNavProps) => {
       activeTextColor: 'text-white',
       hoverBg: 'hover:bg-violet-500/20',
     },
-    {
-      icon: Globe,
-      label: '源浏览',
-      href: '/source-browser',
-      activeGradient: 'bg-gradient-to-r from-blue-500 to-cyan-500',
-      activeTextColor: 'text-white',
-      hoverBg: 'hover:bg-blue-500/20',
-    },
+    // {
+    //   icon: Globe,
+    //   label: '源浏览',
+    //   href: '/source-browser',
+    //   activeGradient: 'bg-gradient-to-r from-blue-500 to-cyan-500',
+    //   activeTextColor: 'text-white',
+    //   hoverBg: 'hover:bg-blue-500/20',
+    // },
     {
       icon: Film,
       label: '电影',
