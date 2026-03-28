@@ -354,7 +354,7 @@ function LoginPageClient() {
           {shouldAskUsername && (
             <div className='mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-700'>
               <p className='text-center text-red-600 dark:text-red-500 text-xs sm:text-sm mb-2.5 sm:mb-3'>
-                和OPNANA账户不通用，请重新注册
+                用户数据库重构，请重新注册账户
               </p>
               <a
                 href='/register'
